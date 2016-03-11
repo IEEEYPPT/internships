@@ -1,0 +1,42 @@
+{
+  "name": "internships",
+  "version": "1.0.0",
+  "description": "IEEE Young Professionals Portugal Internships",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "lab -c -L",
+    "test-cover": "lab -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IEEEYPPT/internships.git"
+  },
+  "author": "IEEE Young Professionals Portugal <yp.portugal@ieee-pt.org>",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/IEEEYPPT/internships/issues"
+  },
+  "homepage": "https://github.com/IEEEYPPT/internships",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "confidence": "1.x.x",
+    "glue": "3.x.x",
+    "hapi": "12.x.x",
+    "hoek": "3.x.x",
+    "jade": "1.x.x",
+    "pg": "^4.5.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.19.3",
+    "vision": "4.x.x",
+    "visionary": "4.x.x"
+  },
+  "devDependencies": {
+    "code": "2.x.x",
+    "lab": "8.x.x",
+    "nodemon": "1.x.x"
+  }
+}
