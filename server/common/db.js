@@ -145,12 +145,23 @@ module.exports = {
             where: {id: id}
         }).then(function(student){
             if(Object.keys(student).length <= 0){
-                student = {error: "Student not found: id doesn't exists"};
+                student = {error: "Student not found: id " + id + " doesn't exists"};
             }
             callback(student);
         },
         function(error){
             callback({error: 'Student not found: ' + error});
+        });
+    },
+    getStudents: function (callback){
+        Student.findAll({}).then(function(students){
+            if(Object.keys(students).length <= 0){
+                students = {error: "Students not found: there are no students available"};
+            }
+            callback(students);
+        },
+        function(error){
+            callback({error: 'Students not found: ' + error});
         });
     }
 };

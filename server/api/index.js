@@ -31,7 +31,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/student',
         handler: function (request, reply) {
-            db.getStudent(0, function(answer) {
+            db.getStudents(function(answer) {
                 reply(answer);
             });
         }
@@ -40,8 +40,9 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/student/{id}',
         handler: function (request, reply) {
-
-            reply({ message: 'Student ' + request.params.id + '.' });
+            db.getStudent(request.params.id, function(answer) {
+                reply(answer);
+            });
         }
     });
     server.route({
