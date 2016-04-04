@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/internships');
+var bcrypt = require('bcrypt');
 
 var Skill = sequelize.define('skill', {
     id: {
@@ -140,6 +141,23 @@ db.sequelize = sequelize;
 db.tables = {Skill,Country,City,StudentBranch,Student,Company};
 
 module.exports = {
+    
+    cryptPassword: function(password, callback) {
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) 
+            return callback(err);
+            bcrypt.hash(password, salt, function(err, hash) {
+            return callback(err, hash);
+            });
+        });
+    },
+    comparePassword: function(password, userPassword, callback) {
+        bcrypt.compare(password, userPassword, function(err, isPasswordMatch) {
+            if (err) 
+                return callback(err);
+            return callback(null, isPasswordMatch);
+        });
+    },
     getStudent: function (id,callback){
         Student.findAll({
             where: {id: id}

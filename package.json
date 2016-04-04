@@ -23,6 +23,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "confidence": "1.x.x",
     "glue": "3.x.x",
     "hapi": "12.x.x",
