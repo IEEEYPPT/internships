@@ -1,13 +1,14 @@
 'use strict';
 
+const db = require('../common/db.js');
+
 exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
-
-            reply({ message: 'Root.' });
+            reply({ version: '1.0' });
         }
     });
     server.route({
@@ -30,8 +31,9 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/student',
         handler: function (request, reply) {
-
-            reply({ message: 'Student.' });
+            db.getStudent(0, function(answer) {
+                reply(answer);
+            });
         }
     });
     server.route({

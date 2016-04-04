@@ -137,5 +137,22 @@ var db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.tables = {Skill,Country,City,StudentBranch,Student,Company};
+
+module.exports = {
+    getStudent: function (id,callback){
+        Student.findAll({
+            where: {id: id}
+        }).then(function(student){
+            if(Object.keys(student).length <= 0){
+                student = {error: "Student not found: id doesn't exists"};
+            }
+            callback(student);
+        },
+        function(error){
+            callback({error: 'Student not found: ' + error});
+        });
+    }
+};
 
 exports.db = db;
