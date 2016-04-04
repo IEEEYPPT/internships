@@ -67,7 +67,10 @@ var Student = sequelize.define('student',{
     email: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            is: ["^.+@ieee.org$",'i']
+        }
     },
     password: {
         type: Sequelize.STRING,
