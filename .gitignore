@@ -1,5 +1,3 @@
-EntityLinking/target/*
+/out/*
 
-EntityLinking/out/*
-
-EntityLinking/.idea/*
+/.idea/*
