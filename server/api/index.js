@@ -37,6 +37,30 @@ exports.register = function (server, options, next) {
         }
     });
     server.route({
+        method: 'POST',
+        path: '/student',
+        handler: function (request, reply) {
+            var student = {
+                email:request.payload.email,
+                password:request.payload.password,
+                ieeeNumber:request.payload.ieeeNumber,
+                firstName:request.payload.firstName,
+                lastName:request.payload.lastName,
+                birthdate:request.payload.birthdate,
+                graduationYear:request.payload.graduationYear
+            };
+            if(student.email && student.password && student.ieeeNumber
+             && student.firstName && student.lastName && student.birthdate 
+             && student.graduationYear){
+                 db.createStudent(student,function(answer) {
+                     reply(answer);
+                 });
+            } else {
+                reply({code: "rejected", msg: "Wrong values provided"});
+            }
+        }
+    });
+    server.route({
         method: 'GET',
         path: '/student/{id}',
         handler: function (request, reply) {
@@ -49,7 +73,6 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/internship',
         handler: function (request, reply) {
-
             reply({ message: 'Internship.' });
         }
     });
@@ -57,7 +80,6 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/internship/{id}',
         handler: function (request, reply) {
-
             reply({ message: 'Internship ' + request.params.id + '.' });
         }
     });

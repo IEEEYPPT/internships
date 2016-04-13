@@ -78,7 +78,10 @@ var Student = sequelize.define('student',{
     },
     ieeeNumber: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            is: ["^[0-9]+$",'i']
+        }
     },
     firstName: {
         type: Sequelize.STRING,
@@ -99,6 +102,7 @@ var Student = sequelize.define('student',{
 });
 
 Student.belongsTo(City);
+Student.belongsTo(StudentBranch);
 
 Student.belongsToMany(Skill,{through: 'studentSkill'});
 Skill.belongsToMany(Student,{through: 'studentSkill'});
@@ -132,7 +136,7 @@ Company.belongsTo(City);
 
 // Force option enabled just for development
 sequelize.sync({
-    force: true
+    //force: true
 }).then(function(){
     
 });
@@ -142,15 +146,15 @@ var db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.tables = {Skill,Country,City,StudentBranch,Student,Company};
-
+  
 module.exports = {
     
     cryptPassword: function(password, callback) {
         bcrypt.genSalt(10, function(err, salt) {
             if (err) 
-            return callback(err);
+                return callback(err);
             bcrypt.hash(password, salt, function(err, hash) {
-            return callback(err, hash);
+                return callback(err, hash);
             });
         });
     },
@@ -166,7 +170,7 @@ module.exports = {
             where: {id: id}
         }).then(function(student){
             if(Object.keys(student).length <= 0){
-                student = {error: "Student not found: id " + id + " doesn't exists"};
+                student = {code: "rejected", msg: "Student not found"};
             }
             callback(student);
         },
@@ -175,7 +179,7 @@ module.exports = {
         });
     },
     getStudents: function (callback){
-        Student.findAll({}).then(function(students){
+        Student.findAll().then(function(students){
             if(Object.keys(students).length <= 0){
                 students = {error: "Students not found: there are no students available"};
             }
@@ -183,6 +187,24 @@ module.exports = {
         },
         function(error){
             callback({error: 'Students not found: ' + error});
+        });
+    },
+    createStudent: function (student,callback){
+        Student.create({
+            email: student.email,
+            password: student.password,
+            ieeeNumber: student.ieeeNumber,
+            firstName: student.firstName,
+            lastName: student.lastName,
+            birthdate: student.birthdate,
+            graduationYear: student.graduationYear
+        }).then(function(){
+            answer = {code:"accepted",msg: "Student created with success"};
+            callback(answer);
+        },
+        function(error){
+            answer = {code:"rejected",msg: "Could not create the student", description: error}
+            callback(answer);
         });
     }
 };
