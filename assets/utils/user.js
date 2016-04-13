@@ -22,7 +22,7 @@ function signIn() {
     //return result
 
     sessionStorage.setItem('user', 1);
-    window.location.url = 'index.html';
+    window.location.href = 'index.html';
 }
 
 function signOut() {
@@ -34,12 +34,12 @@ function register() {
     //verify if it's an IEEE email
     //verify if IEEE email already exists on DB
     //go to form
-    window.location.url = 'editProfile.html';
+    window.location.href = 'editProfile.html';
 }
 
 function cancelRegister() {
     var cancel = confirm("By canceling this operation you are removing your register");
 
     if (cancel)
-        window.location.url = 'index.html';
+        window.location.href = 'index.html';
 }
