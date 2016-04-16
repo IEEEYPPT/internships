@@ -1,15 +1,18 @@
 var Sequelize = require('sequelize');
 
-
-var sequelize = new Sequelize('postgres://amoevggxdixlmo:5u8fuNKnM-HEYF9EwxPn29k-LK@ec2-23-21-255-14.compute-1.amazonaws.com:5432/dae6v3s4ebol8p', {
-      dialect:  'postgres',
-      protocol: 'postgres',
-      port:     5432,
-      host:     'ec2-23-21-255-14.compute-1.amazonaws.com',
-      dialectOptions: {
-        ssl: true
-      }
-    });
+if(process.env.NODE_ENV == 'production'){
+    var sequelize = new Sequelize('postgres://amoevggxdixlmo:5u8fuNKnM-HEYF9EwxPn29k-LK@ec2-23-21-255-14.compute-1.amazonaws.com:5432/dae6v3s4ebol8p', {
+        dialect:  'postgres',
+        protocol: 'postgres',
+        port:     5432,
+        host:     'ec2-23-21-255-14.compute-1.amazonaws.com',
+        dialectOptions: {
+            ssl: true
+        }
+    });    
+} else {
+    var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/internships');
+}
 
 var bcrypt = require('bcrypt');
 
