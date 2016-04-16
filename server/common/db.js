@@ -206,6 +206,45 @@ module.exports = {
             answer = {code:"rejected",msg: "Could not create the student", description: error}
             callback(answer);
         });
+    },
+    getCompany: function (id,callback){
+        Company.findAll({
+            where: {id: id}
+        }).then(function(company){
+            if(Object.keys(company).length <= 0){
+                company = {code: "rejected", msg: "Company not found"};
+            }
+            callback(company);
+        },
+        function(error){
+            callback({error: 'Company not found: ' + error});
+        });
+    },
+    getCompanies: function (callback){
+        Company.findAll().then(function(companies){
+            if(Object.keys(companies).length <= 0){
+                companies = {error: "Companies not found: there are no companies available"};
+            }
+            callback(companies);
+        },
+        function(error){
+            callback({error: 'Companies not found: ' + error});
+        });
+    },
+    createCompany: function (company,callback){
+        Company.create({
+            email: company.email,
+            password: company.password,
+            name: company.name,
+            description: company.description
+        }).then(function(){
+            answer = {code:"accepted",msg: "Company created with success"};
+            callback(answer);
+        },
+        function(error){
+            answer = {code:"rejected",msg: "Could not create the company", description: error}
+            callback(answer);
+        });
     }
 };
 

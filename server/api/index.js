@@ -15,16 +15,42 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/company',
         handler: function (request, reply) {
-
-            reply({ message: 'Company.' });
+            db.getCompanies(function(answer) {
+                reply(answer);
+            });
+        }
+    });
+    server.route({
+        method: 'POST',
+        path: '/company',
+        handler: function (request, reply) {
+            var company = {
+                email:request.payload.email,
+                password:request.payload.password,
+                name:request.payload.name,
+                description:request.payload.description
+            };
+            if(company.email && company.password && company.name && company.description){
+                 db.cryptPassword(company.password,function (err,hash) {
+                     if(!err){
+                         company.password = hash;
+                         db.createCompany(company,function(answer) {
+                             reply(answer);
+                         });
+                     }
+                 });
+            } else {
+                reply({code: "rejected", msg: "Wrong values provided"});
+            }
         }
     });
     server.route({
         method: 'GET',
         path: '/company/{id}',
         handler: function (request, reply) {
-
-            reply({ message: 'Company ' + request.params.id + '.' });
+            db.getCompany(request.params.id, function(answer) {
+                reply(answer);
+            });
         }
     });
     server.route({
