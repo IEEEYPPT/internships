@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/internships');
+var sequelize = new Sequelize('postgres://amoevggxdixlmo:5u8fuNKnM-HEYF9EwxPn29k-LK@ec2-23-21-255-14.compute-1.amazonaws.com:5432/dae6v3s4ebol8p');
 var bcrypt = require('bcrypt');
 
 var Skill = sequelize.define('skill', {
