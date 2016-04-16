@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SHIELD - Free Bootstrap 3 Theme">
+
+    <title>Internships - IEEE Young Professionals Portugal</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="public/css/main.css" rel="stylesheet">
+    <link href="public/css/bootstrap.css" rel="stylesheet">
+    <link href="public/css/animate-custom.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="public/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Files -->
+    <script src="public/js/bootstrap.min.js"></script>
+
+    <!-- Javascript Files -->
+    <script src="public/utils/config.js"></script>
+    <script src="public/utils/layout.js"></script>
+    <script src="public/utils/user.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            initLayout();
+        });
+    </script>
+
+</head>
+<body>
+
+<div id="navbar-main"></div>
+
+<div class="container-fluid">
+
+    <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 main">
+
+        <div id="title">
+            <div class='spacer'>&nbsp;</div>
+            <h2>Edit your Profile</h2>
+            <div class='spacer'>&nbsp;</div>
+        </div>
+
+
+        <div id="container">
+
+            <form class='form-horizontal'>
+                <div class='form-group'>
+                    <label for='inputName' class='col-sm-2 control-label'>Name</label>
+                    <div class='col-sm-10'>
+                        <input type='text' class='form-control' id='inputName' placeholder='Name'>
+                        </div>
+                    </div>
+                <div class='form-group'>
+                    <label for='inputStudentBranch' class='col-sm-2 control-label'>Student Branch</label>
+                    <div class='col-sm-10'>
+                        <input type='text' class='form-control' id='inputStudentBranch' placeholder='Student Branch'>
+                        </div>
+                    </div>
+
+                <div class='form-group'>
+                    <label for='inputAge' class='col-sm-2 control-label'>Age</label>
+                    <div class='col-sm-10'>
+                        <input type='number' class='form-control' id='inputAge' placeholder='Age'>
+                        </div>
+                    </div>
+
+                <div class='form-group'>
+                    <label for='inputEngineeringDegree' class='col-sm-2 control-label'>Engineering Degree</label>
+                    <div class='col-sm-10'>
+                        <input type='text' class='form-control' id='inputEngineeringDegree' placeholder='Engineering Degree'>
+                        </div>
+                    </div>
+
+                <div class='form-group'>
+                    <label for='inputGraduationYear' class='col-sm-2 control-label'>Expected year of graduation</label>
+                    <div class='col-sm-10'>
+                        <input type='number' class='form-control' id='inputGraduationYear' placeholder='Expected year of graduation'>
+                        </div>
+                    </div>
+
+                <div class='form-group'>
+                    <label for='inputProfile' class='col-sm-2 control-label'>LinkedIn / Collabratec profile</label>
+                    <div class='col-sm-10'>
+                        <input type='url' class='form-control' id='inputProfile' placeholder='LinkedIn / Collabratec profile'>
+                        </div>
+                    </div>
+
+                <div class='form-group'>
+                    <label for='inputBio' class='col-sm-2 control-label'>Short Bio</label>
+                    <div class='col-sm-10'>
+                        <input type='text' class='form-control' id='inputBio' placeholder='Short Bio'>
+                        </div>
+                    </div>
+
+                <div class='form-group'>
+                    <div class='col-sm-offset-2 col-sm-10'>
+                        <button type='submit' class='btn btn-default' onclick="cancelRegister()">Cancel</button>
+                        <button type='submit' class='btn btn-default'>OK</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -33,7 +33,7 @@ const manifest = {
             plugin: {
                 register: 'visionary',
                 options: {
-                    engines: { jade: 'jade' },
+                    engines: { html: 'handlebars' },
                     path: './server/web'
                 }
             }
