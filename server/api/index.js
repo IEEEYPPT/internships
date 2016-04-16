@@ -52,8 +52,13 @@ exports.register = function (server, options, next) {
             if(student.email && student.password && student.ieeeNumber
              && student.firstName && student.lastName && student.birthdate 
              && student.graduationYear){
-                 db.createStudent(student,function(answer) {
-                     reply(answer);
+                 db.cryptPassword(student.password,function (err,hash) {
+                     if(!err){
+                         student.password = hash;
+                         db.createStudent(student,function(answer) {
+                             reply(answer);
+                         });
+                     }
                  });
             } else {
                 reply({code: "rejected", msg: "Wrong values provided"});
