@@ -6,7 +6,9 @@ var sequelize = new Sequelize('postgres://amoevggxdixlmo:5u8fuNKnM-HEYF9EwxPn29k
       protocol: 'postgres',
       port:     5432,
       host:     'ec2-23-21-255-14.compute-1.amazonaws.com',
-      logging:  true //false
+      dialectOptions: {
+        ssl: true
+      }
     });
 
 var bcrypt = require('bcrypt');
