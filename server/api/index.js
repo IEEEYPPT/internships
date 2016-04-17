@@ -92,6 +92,19 @@ exports.register = function (server, options, next) {
         }
     });
     server.route({
+        method: 'POST',
+        path: '/student/login',
+        handler: function (request, reply) {
+            if(request.payload.email && request.payload.password){
+                db.checkStudentLogin(request.payload.email,request.payload.password,function(answer) {
+                    reply(answer);
+                });
+            } else {
+                reply({code: "rejected", msg: "Wrong values provided"});
+            }
+        }
+    });
+    server.route({
         method: 'GET',
         path: '/student/{id}',
         handler: function (request, reply) {

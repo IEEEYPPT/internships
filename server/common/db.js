@@ -189,18 +189,18 @@ module.exports = {
             callback(student);
         },
         function(error){
-            callback({error: 'Student not found: ' + error});
+            callback({code: "rejected", msg: 'Student not found', description:error});
         });
     },
     getStudents: function (callback){
         Student.findAll().then(function(students){
             if(Object.keys(students).length <= 0){
-                students = {error: "Students not found: there are no students available"};
+                students = {code:"rejected", msg: "Students not found: there are no students available"};
             }
-            callback(students);
+            callback({code:"accepted", msg:students});
         },
         function(error){
-            callback({error: 'Students not found: ' + error});
+            callback({code:"rejected", msg: 'Students not found', description:error});
         });
     },
     createStudent: function (student,callback){
@@ -221,6 +221,30 @@ module.exports = {
             callback(answer);
         });
     },
+    checkStudentLogin: function (email,password,callback){
+        Student.find({ where: {email:email}}).then(function(student){
+            if(student == null){
+                student = {code: "rejected", msg: "Email not found in the database"};
+                callback(student);
+            }else{
+                var answer;
+                module.exports.comparePassword(password,student.dataValues.password,function(val,isPasswordMatch){
+                    console.log(isPasswordMatch);
+                    if(isPasswordMatch){
+                        answer = {code: "accepted", msg: "Login successful"};
+                        callback(answer);
+                    }
+                    else{
+                        answer = {code: "rejected", msg: "Invalid login"};
+                        callback(answer);
+                    }
+                });
+            }
+        },
+        function(error){
+            callback({code:"rejected", msg: 'Error checking email/password'});
+        });
+    },
     getCompany: function (id,callback){
         Company.findAll({
             where: {id: id}
@@ -231,18 +255,18 @@ module.exports = {
             callback(company);
         },
         function(error){
-            callback({error: 'Company not found: ' + error});
+            callback({code: "rejected", msg: 'Company not found', description:error});
         });
     },
     getCompanies: function (callback){
         Company.findAll().then(function(companies){
             if(Object.keys(companies).length <= 0){
-                companies = {error: "Companies not found: there are no companies available"};
+                companies = {code:"rejected", msg: "Companies not found: there are no companies available"};
             }
             callback(companies);
         },
         function(error){
-            callback({error: 'Companies not found: ' + error});
+            callback({code:"rejected", msg: 'Companies not found', description:error});
         });
     },
     createCompany: function (company,callback){
