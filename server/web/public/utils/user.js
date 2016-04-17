@@ -20,11 +20,25 @@ function signIn() {
     //verify if it's an IEEE email
     //if yes then send to DB
     //return result
-
-    sessionStorage.setItem('user', 1);
-    window.location.href = '/';
+    
+    var email = document.getElementById("inputEmail1").value;
+    var password = document.getElementById("inputPassword1").value;
+    
+    var pattern = new RegExp(/\w+@ieee.org/);
+    
+    if(pattern.test(email)){
+        $.post('/api/student/login',{email,password},function(reply){
+            if(reply.code == 'accepted'){
+                sessionStorage.setItem('user', 1);
+                window.location.href = '/';
+            } else {
+                //do something fancy to output error
+            }
+        });
+    } else {
+        //do something fancy to output error
+    }
 }
-
 function signOut() {
     //return result
     sessionStorage.setItem('user', 0);

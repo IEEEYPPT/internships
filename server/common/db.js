@@ -229,7 +229,6 @@ module.exports = {
             }else{
                 var answer;
                 module.exports.comparePassword(password,student.dataValues.password,function(val,isPasswordMatch){
-                    console.log(isPasswordMatch);
                     if(isPasswordMatch){
                         answer = {code: "accepted", msg: "Login successful"};
                         callback(answer);
