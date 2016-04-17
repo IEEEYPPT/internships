@@ -33,7 +33,7 @@ function addNavbar()
                             "<li><a href='http://yp.ieee-pt.org/'>IEEE Young Professionals Portugal</a></li>" +
                         "</ul>" +
                         "<ul class='nav navbar-nav navbar-right'>" +
-                            "<li> <a href='index.html'> About</a></li>" +
+                            "<li> <a href='/'> About</a></li>" +
                             "<li> <a href='#listStudents'> Students</a></li>" +
                             "<li> <a href='#listCompanies'> Companies</a></li>" +
                             "<li> <a href='#listInternships'> Internships</a></li>" +
@@ -55,24 +55,24 @@ function addUserInformation () {
         case "0": //non-authenticated
             $('#userInformation').append(
                 "<div class='spacer'>&nbsp;</div>" +
-                    "<a href='index.html' onclick='addSigninForm();return false;'>Sign in</a> ·  " +
-                    "<a href='index.html' onclick='addRegisterForm();return false;'>Register</a>." +
+                    "<a href='/' onclick='addSigninForm();return false;'>Sign in</a> ·  " +
+                    "<a href='/' onclick='addRegisterForm();return false;'>Register</a>." +
                 "<div class='spacer'>&nbsp;</div>"
             );
             break;
         case "1": //student
             $('#userInformation').append(
                 "<div class='spacer'>&nbsp;</div>" +
-                    "Signed as Student <a href='userInfo'>user</a>  ·  " +
-                    "<a href='index.html' onclick='signOut()'>Sign out</a>" +
+                    "Signed as Student <a href='/student/profile'>user</a>  ·  " +
+                    "<a href='/' onclick='signOut()'>Sign out</a>" +
                 "<div class='spacer'>&nbsp;</div>"
             );
             break;
         case "2": //company
             $('#userInformation').append(
                 "<div class='spacer'>&nbsp;</div>" +
-                    "Signed as Company <a href='userInfo'>user</a>  ·  " +
-                "   <a href='index.html' onclick='signOut()'>Sign out</a>-->" +
+                    "Signed as Company <a href='/company/profile'>user</a>  ·  " +
+                "   <a href='/' onclick='signOut()'>Sign out</a>-->" +
                 "<div class='spacer'>&nbsp;</div>"
             );
             break;
