@@ -244,6 +244,15 @@ module.exports = {
             callback({code:"rejected", msg: 'Error checking email/password'});
         });
     },
+    checkStudentEmailNotUsed:function (email,callback){
+      Student.find({where:{email:email}}).then(function(student){
+          if(student == null){
+              callback(true);
+          } else {
+              callback(false);
+          }
+      });  
+    },
     getCompany: function (id,callback){
         Company.findAll({
             where: {id: id}

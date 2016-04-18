@@ -105,6 +105,26 @@ exports.register = function (server, options, next) {
         }
     });
     server.route({
+        method: 'POST',
+        path: '/student/email',
+        handler: function (request, reply) {
+            if(request.payload.email){
+                db.checkStudentEmailNotUsed(request.payload.email,function(answer) {
+                    if(answer){
+                        answer = {code: "accepted",msg: "Email not used"};
+                        reply(answer);
+                    }
+                    else {
+                        answer = {code: "rejected",msg: "Email on use"};
+                        reply(answer);
+                    }
+                });
+            } else {
+                reply({code: "rejected", msg: "Wrong values provided"});
+            }
+        }
+    });
+    server.route({
         method: 'GET',
         path: '/student/{id}',
         handler: function (request, reply) {

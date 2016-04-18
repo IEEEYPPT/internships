@@ -48,12 +48,33 @@ function register() {
     //verify if it's an IEEE email
     //verify if IEEE email already exists on DB
     //go to form
-    window.location.href = '/student/edit';
+    
+    var email = document.getElementById("inputEmail1").value;
+    var password = document.getElementById("inputPassword1").value;
+    
+    var pattern = new RegExp(/\w+@ieee.org/);
+    
+    if(pattern.test(email)){
+        $.post('/api/student/email',{email},function(reply){
+            if(reply.code == 'accepted'){
+                sessionStorage.setItem('email', email);
+                sessionStorage.setItem('password', password);
+                window.location.href = '/student/register';
+            } else {
+                //do something fancy to output error
+            }
+        });
+    } else {
+        //do something fancy to output error
+    }
 }
 
 function cancelRegister() {
     var cancel = confirm("By canceling this operation you are removing your register");
 
-    if (cancel)
+    if (cancel){
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('password');
         window.location.href = '/';
+    }
 }

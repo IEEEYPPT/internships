@@ -11,6 +11,13 @@ exports.register = function (server, options, next) {
         handler: function (request, reply) {
             return reply.view('./views/index');
         }
+    });
+    server.route({
+        method: 'GET',
+        path: '/student/register',
+        handler: function (request, reply) {
+            return reply.view('./views/student/register');
+        }
     });    
 
     next();
