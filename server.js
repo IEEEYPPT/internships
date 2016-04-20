@@ -1,7 +1,7 @@
 'use strict';
 
 const Composer = require('./index');
-const DB = require('./server/common/db.js');
+const DB = require('./server/common/database/index.js');
 const Inert = require('inert');
 
 Composer((err, server) => {

@@ -52,20 +52,24 @@ function register() {
     var email = document.getElementById("inputEmail1").value;
     var password = document.getElementById("inputPassword1").value;
     
-    var pattern = new RegExp(/\w+@ieee.org/);
-    
-    if(pattern.test(email)){
-        $.post('/api/student/email',{email},function(reply){
-            if(reply.code == 'accepted'){
-                sessionStorage.setItem('email', email);
-                sessionStorage.setItem('password', password);
-                window.location.href = '/student/register';
-            } else {
-                //do something fancy to output error
-            }
-        });
+    if(email && password){
+        var pattern = new RegExp(/\w+@ieee.org/);
+        
+        if(pattern.test(email)){
+            $.post('/api/student/email',{email},function(reply){
+                if(reply.code == 'accepted'){
+                    sessionStorage.setItem('email', email);
+                    sessionStorage.setItem('password', password);
+                    window.location.href = '/student/register';
+                } else {
+                    //do something fancy to output error
+                }
+            });
+        } else {
+            //do something fancy to output error
+        }
     } else {
-        //do something fancy to output error
+        //do something fancy to output error        
     }
 }
 

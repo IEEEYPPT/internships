@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../common/db.js');
+const db = require('../common/database/index.js');
 
 exports.register = function (server, options, next) {
 
@@ -115,7 +115,7 @@ exports.register = function (server, options, next) {
                         reply(answer);
                     }
                     else {
-                        answer = {code: "rejected",msg: "Email on use"};
+                        answer = {code: "rejected",msg: "Email in use"};
                         reply(answer);
                     }
                 });
@@ -129,6 +129,15 @@ exports.register = function (server, options, next) {
         path: '/student/{id}',
         handler: function (request, reply) {
             db.getStudent(request.params.id, function(answer) {
+                reply(answer);
+            });
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/studentbranch',
+        handler: function (request, reply) {
+            db.getStudentBranchs(function(answer) {
                 reply(answer);
             });
         }

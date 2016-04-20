@@ -112,7 +112,21 @@ var Student = sequelize.define('student',{
     graduationYear: {
         type: Sequelize.INTEGER,
         allowNull: false
-    }
+    },
+    linkedIn:{
+        type: Sequelize.STRING,
+        allowNull: true,
+        validate: {
+            is: ["^https://www.linkedin.com/in/\w+$",'i']   
+        }
+    },
+    collabratec:{
+        type: Sequelize.STRING,
+        allowNull: true,
+        validate: {
+            is: ["^https://ieee-collabratec.ieee.org/app/p/\w+$",'i']   
+        }
+    }  
 });
 
 Student.belongsTo(City);
@@ -148,19 +162,20 @@ var Company = sequelize.define('company',{
 
 Company.belongsTo(City);
 
-// Force option enabled just for development
-sequelize.sync({
-    //force: true
-}).then(function(){
-    
-});
-
 var db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.tables = {Skill,Country,City,StudentBranch,Student,Company};
-  
+
+
+// Force option enabled just for development
+sequelize.sync({
+    force: true
+}).then(function(){
+    require('./seed.js')(db);
+});
+
 module.exports = {
     
     cryptPassword: function(password, callback) {
@@ -195,9 +210,10 @@ module.exports = {
     getStudents: function (callback){
         Student.findAll().then(function(students){
             if(Object.keys(students).length <= 0){
-                students = {code:"rejected", msg: "Students not found: there are no students available"};
+                callback({code:"rejected", msg: "Students not found: there are no students available"});
+            }else{
+                callback({code:"accepted", msg:students});
             }
-            callback({code:"accepted", msg:students});
         },
         function(error){
             callback({code:"rejected", msg: 'Students not found', description:error});
@@ -259,8 +275,10 @@ module.exports = {
         }).then(function(company){
             if(Object.keys(company).length <= 0){
                 company = {code: "rejected", msg: "Company not found"};
+                callback(company);
+            }else{
+                callback(company);   
             }
-            callback(company);
         },
         function(error){
             callback({code: "rejected", msg: 'Company not found', description:error});
@@ -290,6 +308,17 @@ module.exports = {
         function(error){
             answer = {code:"rejected",msg: "Could not create the company", description: error}
             callback(answer);
+        });
+    },
+    getStudentBranchs: function (callback){
+        StudentBranch.findAll().then(function(studentBranchs){
+            if(Object.keys(studentBranchs).length <= 0){
+                studentBranchs = {code:"rejected", msg: "Student Branchs not found: there are no student branchs available"};
+            }
+            callback(studentBranchs);
+        },
+        function(error){
+            callback({code:"rejected", msg: 'Student Branchs not found', description:error});
         });
     }
 };
