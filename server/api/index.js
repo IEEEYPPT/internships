@@ -66,21 +66,40 @@ exports.register = function (server, options, next) {
         method: 'POST',
         path: '/student',
         handler: function (request, reply) {
-            var student = {
-                email:request.payload.email,
-                password:request.payload.password,
-                ieeeNumber:request.payload.ieeeNumber,
-                firstName:request.payload.firstName,
-                lastName:request.payload.lastName,
-                birthdate:request.payload.birthdate,
-                graduationYear:request.payload.graduationYear
-            };
-            if(student.email && student.password && student.ieeeNumber
-             && student.firstName && student.lastName && student.birthdate 
-             && student.graduationYear){
+            if(request.payload.email && request.payload.password && request.payload.ieeeNumber
+             && request.payload.firstName && request.payload.lastName && request.payload.birthdate 
+             && request.payload.graduationYear){
+                 
                  db.cryptPassword(student.password,function (err,hash) {
                      if(!err){
+                         var student = {
+                             email:request.payload.email,
+                             password:request.payload.password,
+                             ieeeNumber:request.payload.ieeeNumber,
+                             firstName:request.payload.firstName,
+                             lastName:request.payload.lastName,
+                             birthdate:request.payload.birthdate,
+                             graduationYear:request.payload.graduationYear
+                         };
                          student.password = hash;
+                         if(request.payload.studentBranchId){
+                             student.studentBranchId = request.payload.studentBranchId;
+                         }
+                         if(request.payload.cityId){
+                             student.cityId = request.payload.cityId;
+                         }
+                         if(request.payload.collabratec){
+                             student.collabratec = request.payload.collabratec;
+                         }
+                         if(request.payload.linkedIn){
+                             student.linkedIn = request.payload.linkedIn;
+                         }
+                         if(request.payload.bio){
+                             student.bio = request.payload.bio;
+                         }
+                         if(request.payload.area){
+                             student.area = request.payload.area;
+                         }
                          db.createStudent(student,function(answer) {
                              reply(answer);
                          });
@@ -138,6 +157,15 @@ exports.register = function (server, options, next) {
         path: '/studentbranch',
         handler: function (request, reply) {
             db.getStudentBranchs(function(answer) {
+                reply(answer);
+            });
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/city',
+        handler: function (request, reply) {
+            db.getCities(function(answer) {
                 reply(answer);
             });
         }

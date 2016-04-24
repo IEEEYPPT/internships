@@ -24,17 +24,21 @@ function signIn() {
     var email = document.getElementById("inputEmail1").value;
     var password = document.getElementById("inputPassword1").value;
     
-    var pattern = new RegExp(/\w+@ieee.org/);
-    
-    if(pattern.test(email)){
-        $.post('/api/student/login',{email,password},function(reply){
-            if(reply.code == 'accepted'){
-                sessionStorage.setItem('user', 1);
-                window.location.href = '/';
-            } else {
-                //do something fancy to output error
-            }
-        });
+    if(email && password){
+        var pattern = new RegExp(/\w+@ieee.org/);
+        
+        if(pattern.test(email)){
+            $.post('/api/student/login',{email,password},function(reply){
+                if(reply.code == 'accepted'){
+                    sessionStorage.setItem('user', 1);
+                    window.location.href = '/';
+                } else {
+                    //do something fancy to output error
+                }
+            });
+        } else {
+            //do something fancy to output error
+        }
     } else {
         //do something fancy to output error
     }
@@ -81,4 +85,32 @@ function cancelRegister() {
         sessionStorage.removeItem('password');
         window.location.href = '/';
     }
+}
+
+function loadStudentBranchs(){
+    $.get('/api/studentbranch',function(reply){
+        if(reply.code){
+            if(reply.code == "accepted" && reply.msg.constructor === Array){
+                for(i = 0; i < reply.msg.length;i++){
+                    $('#inputStudentBranch').append($('<option></option>').val(reply.msg[i].id).html(reply.msg[i].name)); 
+                }
+            } else {
+                //error handling
+            }
+        }
+    });
+}
+
+function loadCities(){
+    $.get('/api/city',function(reply){
+        if(reply.code){
+            if(reply.code == "accepted" && reply.msg.constructor === Array){
+                for(i = 0; i < reply.msg.length;i++){
+                    $('#inputCity').append($('<option></option>').val(reply.msg[i].id).html(reply.msg[i].name)); 
+                }
+            } else {
+                //error handling
+            }
+        }
+    });
 }

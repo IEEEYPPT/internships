@@ -126,7 +126,15 @@ var Student = sequelize.define('student',{
         validate: {
             is: ["^https://ieee-collabratec.ieee.org/app/p/\w+$",'i']   
         }
-    }  
+    },
+    bio:{
+        type: Sequelize.TEXT,
+        allowNull: true
+    },
+    area:{
+        type: Sequelize.TEXT,
+        allowNull: true
+    }
 });
 
 Student.belongsTo(City);
@@ -220,15 +228,7 @@ module.exports = {
         });
     },
     createStudent: function (student,callback){
-        Student.create({
-            email: student.email,
-            password: student.password,
-            ieeeNumber: student.ieeeNumber,
-            firstName: student.firstName,
-            lastName: student.lastName,
-            birthdate: student.birthdate,
-            graduationYear: student.graduationYear
-        }).then(function(){
+        Student.create(student).then(function(){
             answer = {code:"accepted",msg: "Student created with success"};
             callback(answer);
         },
@@ -313,12 +313,25 @@ module.exports = {
     getStudentBranchs: function (callback){
         StudentBranch.findAll().then(function(studentBranchs){
             if(Object.keys(studentBranchs).length <= 0){
-                studentBranchs = {code:"rejected", msg: "Student Branchs not found: there are no student branchs available"};
+                callback({code:"rejected", msg: "Student Branchs not found: there are no student branchs available"});
+            } else {
+                callback({code:"accepted", msg:studentBranchs});
             }
-            callback(studentBranchs);
         },
         function(error){
             callback({code:"rejected", msg: 'Student Branchs not found', description:error});
+        });
+    },
+    getCities: function (callback){
+        City.findAll().then(function(cities){
+            if(Object.keys(cities).length <= 0){
+                callback({code:"rejected", msg: "Cities not found: there are no cities available"});
+            }else{
+                callback({code:"accepted", msg:cities});
+            }
+        },
+        function(error){
+            callback({code:"rejected", msg: 'Cities not found', description:error});
         });
     }
 };
