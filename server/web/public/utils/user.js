@@ -77,6 +77,34 @@ function register() {
     }
 }
 
+function sendRegister() {
+    var form = $('#formRegister');
+
+    form.on('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = form.serialize() + '&email=' + sessionStorage.getItem('email') + '&password=' + sessionStorage.getItem('password');
+        
+        $.ajax({
+            url: '/api/student',
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            success: function(data) {
+                if(data.code && data.code == 'accepted'){
+                    sessionStorage.removeItem('email');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.setItem('user',1);
+                    window.location.href = '/';
+                }
+            },
+            error: function(e) {
+                console.log(e)
+            }
+        });
+    });
+}
+
 function cancelRegister() {
     var cancel = confirm("By canceling this operation you are removing your register");
 

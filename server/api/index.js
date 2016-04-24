@@ -66,11 +66,12 @@ exports.register = function (server, options, next) {
         method: 'POST',
         path: '/student',
         handler: function (request, reply) {
+            console.log(request.payload);
             if(request.payload.email && request.payload.password && request.payload.ieeeNumber
              && request.payload.firstName && request.payload.lastName && request.payload.birthdate 
              && request.payload.graduationYear){
                  
-                 db.cryptPassword(student.password,function (err,hash) {
+                 db.cryptPassword(request.payload.password,function (err,hash) {
                      if(!err){
                          var student = {
                              email:request.payload.email,

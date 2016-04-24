@@ -11,7 +11,7 @@ if(process.env.NODE_ENV == 'production'){
         }
     });    
 } else {
-    var sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/internships');
+    var sequelize = new Sequelize('postgres://postgres:postgres@127.0.0.1:5432/internships');
 }
 
 var bcrypt = require('bcrypt');
