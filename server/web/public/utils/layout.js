@@ -63,7 +63,7 @@ function addUserInformation () {
         case "1": //student
             $('#userInformation').append(
                 "<div class='spacer'>&nbsp;</div>" +
-                    "Signed as Student <a href='/student/profile'>user</a>  ·  " +
+                    "Signed as Student <a href='/student/profile'>" + JSON.parse(sessionStorage.getItem('userData')).firstName + " " + JSON.parse(sessionStorage.getItem('userData')).lastName + "</a>  ·  " +
                     "<a href='/' onclick='signOut()'>Sign out</a>" +
                 "<div class='spacer'>&nbsp;</div>"
             );

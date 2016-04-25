@@ -114,5 +114,20 @@ module.exports = function(db) {
              countryId: country.id
     }]);
   });
-
+  
+  db.exports.cryptPassword('12345',function(err,salt){
+      if(err){
+          //error
+      } else {
+        db.tables.Student.create({
+            email:'john.doe@ieee.org',
+            password:salt,
+            ieeeNumber: '0123456789',
+            firstName: 'John',
+            lastName: 'Doe',
+            birthdate: '1993/01/01',
+            graduationYear: 2017
+        });
+      }
+  });
 };
