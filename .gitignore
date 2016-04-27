@@ -1,3 +1,5 @@
 node_modules
 test/artifacts/*
 jsconfig.json
+.idea/
+out/
