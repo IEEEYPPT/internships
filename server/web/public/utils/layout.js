@@ -20,6 +20,9 @@ function addNavbar()
                     "<ul class='nav navbar-nav'>" +
                         "<li><a href='http://yp.ieee-pt.org/'>IEEE Young Professionals Portugal</a></li>" +
                     "</ul>" +
+                    "<ul class='nav navbar-nav navbar-right'>" +
+                        "<li><a href='/'> About</a></li>" +
+                    "</ul>" +
                 "</div><!--/.nav-collapse -->" +
             "</div>" +
         "</div>"
@@ -33,10 +36,10 @@ function addNavbar()
                             "<li><a href='http://yp.ieee-pt.org/'>IEEE Young Professionals Portugal</a></li>" +
                         "</ul>" +
                         "<ul class='nav navbar-nav navbar-right'>" +
-                            "<li> <a href='/'> About</a></li>" +
-                            "<li> <a href='#listStudents'> Students</a></li>" +
-                            "<li> <a href='#listCompanies'> Companies</a></li>" +
-                            "<li> <a href='#listInternships'> Internships</a></li>" +
+                            "<li><a href='/'> About</a></li>" +
+                            "<li><a href='#listStudents'> Students</a></li>" +
+                            "<li><a href='#listCompanies'> Companies</a></li>" +
+                            "<li><a href='#listInternships'> Internships</a></li>" +
                         "</ul>" +
                     "</div><!--/.nav-collapse -->" +
                 "</div>" +
@@ -94,6 +97,7 @@ function addSigninForm() {
     //clean DIVs
     $('#title').empty();
     $('#container').empty();
+    $('#alertMessage').empty();
 
     //add Title
     $('#title').append(
@@ -120,6 +124,7 @@ function addRegisterForm() {
     //clean DIVs
     $('#title').empty();
     $('#container').empty();
+    $('#alertMessage').empty();
 
     //add Title
     $('#title').append(
@@ -141,7 +146,22 @@ function addRegisterForm() {
                 "<label for='inputPassword1'>Password</label>" +
                 "<input type='password' class='form-control' id='inputPassword1' placeholder='Password'>" +
             "</div>" +
+            "<div class='form-group'>" +
+                "<label for='inputPassword1'>Password</label>" +
+                "<input type='password' class='form-control' id='inputPassword2' placeholder='Retype Password'>" +
+            "</div>" +
             "<button type='submit' class='btn btn-default' onclick='register();return false;'>OK</button>" +
         "</form>"
     );
+}
+
+function addAlertMessage (msg) {
+    //add message
+    $('#alertMessage').append(
+        "<div class='alert alert-danger' role='alert'>" + msg + "</div>"
+    );
+}
+
+function cleanAlertMessage () {
+    $('#alertMessage').empty();
 }

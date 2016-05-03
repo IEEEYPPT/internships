@@ -17,13 +17,9 @@ function checkUserAuthentication () {
 }
 
 function signIn() {
-    //verify if it's an IEEE email
-    //if yes then send to DB
-    //return result
-    
     var email = document.getElementById("inputEmail1").value;
     var password = document.getElementById("inputPassword1").value;
-    
+
     if(email && password){
         var pattern = new RegExp(/\w+@ieee.org/);
         
@@ -35,14 +31,17 @@ function signIn() {
                     sessionStorage.setItem('userData',JSON.stringify(userData));
                     window.location.href = '/';
                 } else {
-                    //do something fancy to output error
+                    cleanAlertMessage();
+                    addAlertMessage(signinError3);
                 }
             });
         } else {
-            //do something fancy to output error
+            cleanAlertMessage();
+            addAlertMessage(signinError2);
         }
     } else {
-        //do something fancy to output error
+        cleanAlertMessage();
+        addAlertMessage(signinError1);
     }
 }
 function signOut() {
