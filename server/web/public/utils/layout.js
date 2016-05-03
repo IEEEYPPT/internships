@@ -109,11 +109,11 @@ function addSigninForm() {
         "<form>" +
             "<div class='form-group'>" +
                 "<label for='inputEmail1'>IEEE Email address</label>" +
-                "<input type='email' class='form-control' id='inputEmail1' placeholder='Email'>" +
+                "<input type='email' class='form-control' id='inputEmail1' placeholder='Email' required>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label for='inputPassword1'>Password</label>" +
-                "<input type='password' class='form-control' id='inputPassword1' placeholder='Password'>" +
+                "<input type='password' class='form-control' id='inputPassword1' placeholder='Password' required>" +
             "</div>" +
             "<button type='submit' class='btn btn-default' onclick='signIn();return false;'>OK</button>" +
         "</form>"
@@ -140,15 +140,15 @@ function addRegisterForm() {
         "<form>" +
             "<div class='form-group'>" +
                 "<label for='inputEmail1'>IEEE Email address</label>" +
-                "<input type='email' class='form-control' id='inputEmail1' placeholder='Email'>" +
+                "<input type='email' class='form-control' id='inputEmail1' placeholder='Email' required>" +
             "</div>" +
             "<div class='form-group'>" +
                 "<label for='inputPassword1'>Password</label>" +
-                "<input type='password' class='form-control' id='inputPassword1' placeholder='Password'>" +
+                "<input type='password' class='form-control' id='inputPassword1' placeholder='Password' required>" +
             "</div>" +
             "<div class='form-group'>" +
-                "<label for='inputPassword1'>Password</label>" +
-                "<input type='password' class='form-control' id='inputPassword2' placeholder='Retype Password'>" +
+                "<label for='inputPassword2'>Retype Password</label>" +
+                "<input type='password' class='form-control' id='inputPassword2' placeholder='Password' required>" +
             "</div>" +
             "<button type='submit' class='btn btn-default' onclick='register();return false;'>OK</button>" +
         "</form>"
