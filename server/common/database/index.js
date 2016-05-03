@@ -229,7 +229,7 @@ module.exports = {
     },
     createStudent: function (student,callback){
         Student.create(student).then(function(){
-            answer = {code:"accepted",msg: "Student created with success"};
+            answer = {code:"accepted",msg: "Student created with success", data:student};
             callback(answer);
         },
         function(error){

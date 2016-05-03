@@ -18,6 +18,9 @@ var registerTitle = "Register";
 var registerText =  "<p>" + "This site is directed to students members of IEEE." + "</p>";
 registerText += "<p>" + "What to do if you are a company?" + "</p>";
 
+//MESSAGES
 var signinError1 = "Introduce your email and password.";
 var signinError2 = "Please, introduce a valid IEEE email.";
 var signinError3 = "Email or Password is not correct.";
+var registerError1 = "Email already exists.";
+var registerError2 = "Mismatched Passwords.";

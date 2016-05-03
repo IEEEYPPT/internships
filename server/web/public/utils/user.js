@@ -47,34 +47,44 @@ function signIn() {
 function signOut() {
     //return result
     sessionStorage.setItem('user', 0);
+    sessionStorage.removeItem('userData');
 }
 
 function register() {
-    //verify if it's an IEEE email
-    //verify if IEEE email already exists on DB
-    //go to form
     
     var email = document.getElementById("inputEmail1").value;
     var password = document.getElementById("inputPassword1").value;
+    var password2 = document.getElementById("inputPassword2").value;
     
-    if(email && password){
+    if(email && password && password2){
         var pattern = new RegExp(/\w+@ieee.org/);
         
         if(pattern.test(email)){
             $.post('/api/student/email',{email},function(reply){
-                if(reply.code == 'accepted'){
-                    sessionStorage.setItem('email', email);
-                    sessionStorage.setItem('password', password);
-                    window.location.href = '/student/register';
-                } else {
-                    //do something fancy to output error
+                if (password === password2)
+                {
+                    if(reply.code == 'accepted'){
+                        sessionStorage.setItem('email', email);
+                        sessionStorage.setItem('password', password);
+                        window.location.href = '/student/register';
+                    } else {
+                        cleanAlertMessage();
+                        addAlertMessage(registerError1);
+                    }
+                }
+                else
+                {
+                    cleanAlertMessage();
+                    addAlertMessage(registerError2);
                 }
             });
         } else {
-            //do something fancy to output error
+            cleanAlertMessage();
+            addAlertMessage(signinError2);
         }
     } else {
-        //do something fancy to output error        
+        cleanAlertMessage();
+        addAlertMessage(signinError1);
     }
 }
 
@@ -91,11 +101,15 @@ function sendRegister() {
             type: 'POST',
             dataType: 'json',
             data: formData,
-            success: function(data) {
-                if(data.code && data.code == 'accepted'){
+            success: function(reply) {
+                if(reply.code && reply.code == 'accepted'){
+                    sessionStorage.setItem('user',1);
+                    var userData = {firstName:reply.data.firstName,lastName:reply.data.lastName,birthdate:reply.data.birthdate,graduationYear:reply.data.graduationYear,linkedIn:reply.data.linkedIn,collabratec:reply.data.collabratec,bio:reply.data.bio,area:reply.data.area};
+                    sessionStorage.setItem('userData',JSON.stringify(userData));
+
                     sessionStorage.removeItem('email');
                     sessionStorage.removeItem('password');
-                    sessionStorage.setItem('user',1);
+
                     window.location.href = '/';
                 }
             },
