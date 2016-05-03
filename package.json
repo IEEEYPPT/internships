@@ -4,7 +4,8 @@
   "description": "IEEE Young Professionals Portugal Internships",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
+    "devel": "nodemon server.js",
     "test": "lab -c -L",
     "test-cover": "lab -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html"
   },
@@ -30,8 +31,6 @@
     "hapi": "12.x.x",
     "hoek": "3.x.x",
     "inert": "^3.2.0",
-    "jade": "1.x.x",
-    "nodemon": "^1.9.1",
     "pg": "^4.5.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.19.3",
