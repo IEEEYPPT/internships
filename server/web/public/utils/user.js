@@ -50,7 +50,7 @@ function signOut() {
     sessionStorage.removeItem('userData');
 }
 
-function register() {
+function validateRegisterEmailPassword() {
     
     var email = document.getElementById("inputEmail1").value;
     var password = document.getElementById("inputPassword1").value;
@@ -63,14 +63,15 @@ function register() {
             $.post('/api/student/email',{email},function(reply){
                 if (password === password2)
                 {
-                    if(reply.code == 'accepted'){
-                        sessionStorage.setItem('email', email);
-                        sessionStorage.setItem('password', password);
-                        window.location.href = '/student/register';
-                    } else {
-                        cleanAlertMessage();
-                        addAlertMessage(registerError1);
-                    }
+                    cleanAlertMessage();
+                    $("#preFormRegister").hide();
+                    $("#formRegister").show();
+                    $("#inputPassword3").val($("#inputPassword1").val());
+                    $("#inputEmail2").val($("#inputEmail1").val());
+                    loadStudentBranchs();
+                    loadCities();
+                    $( "#inputGraduationYear" ).attr( "min", new Date().getFullYear() );
+                    sendRegister();
                 }
                 else
                 {
@@ -94,7 +95,7 @@ function sendRegister() {
     form.on('submit', function(e) {
         e.preventDefault();
         
-        var formData = form.serialize() + '&email=' + sessionStorage.getItem('email') + '&password=' + sessionStorage.getItem('password');
+        var formData = form.serialize();
         
         $.ajax({
             url: '/api/student',
@@ -106,10 +107,7 @@ function sendRegister() {
                     sessionStorage.setItem('user',1);
                     var userData = {firstName:reply.data.firstName,lastName:reply.data.lastName,birthdate:reply.data.birthdate,graduationYear:reply.data.graduationYear,linkedIn:reply.data.linkedIn,collabratec:reply.data.collabratec,bio:reply.data.bio,area:reply.data.area};
                     sessionStorage.setItem('userData',JSON.stringify(userData));
-
-                    sessionStorage.removeItem('email');
-                    sessionStorage.removeItem('password');
-
+                    
                     window.location.href = '/';
                 }
             },

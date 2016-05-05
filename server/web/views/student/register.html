@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SHIELD - Free Bootstrap 3 Theme">
 
     <title>Internships - IEEE Young Professionals Portugal</title>
 
@@ -29,16 +28,13 @@
 
     <script>
         $(document).ready(function() {
-            if(sessionStorage.getItem('email') && sessionStorage.getItem('password') && sessionStorage.getItem('user') == 0){  
+            if(sessionStorage.getItem('user') == 0){  
                 initLayout();
-                loadStudentBranchs();
-                loadCities();
-                $( "#inputGraduationYear" ).attr( "min", new Date().getFullYear() );   
+                addRegisterForm();
             } else {
                 //fancy error output needed
                 window.location.href = '/';
             }
-            sendRegister();
             });
     </script>
 
@@ -47,104 +43,21 @@
 
 <div id="navbar-main"></div>
 
+<div id="alertMessage"></div>
+
 <div class="container-fluid">
 
     <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 main">
 
         <div id="title">
-            <div class='spacer'>&nbsp;</div>
-            <h2>Edit your Profile</h2>
-            <div class='spacer'>&nbsp;</div>
+            
         </div>
 
 
         <div id="container">
 
             <form class='form-horizontal' id='formRegister'>
-                <div class='form-group'>
-                    <label for='inputFirstName' class='col-sm-2 control-label'>First Name</label>
-                    <div class='col-sm-10'>
-                        <input type='text' class='form-control' id='inputFirstName' placeholder='First Name' name='firstName' required>
-                        </div>
-                    </div>
-                <div class='form-group'>
-                    <label for='inputLastName' class='col-sm-2 control-label'>Last Name</label>
-                    <div class='col-sm-10'>
-                        <input type='text' class='form-control' id='inputLastName' placeholder='Last Name' name='lastName' required>
-                        </div>
-                    </div>
-                    
-                <div class='form-group'>
-                    <label for='inputIEEENumber' class='col-sm-2 control-label'>IEEE Member Number</label>
-                    <div class='col-sm-10'>
-                        <input type='number' class='form-control' id='inputIEEENumber' placeholder='IEEE Member Number' name='ieeeNumber' required>
-                        </div>
-                    </div>
-                    
-                <div class='form-group'>
-                    <label for='inputStudentBranch' class='col-sm-2 control-label'>Student Branch</label>
-                    <div class='col-sm-10'>
-                        <select class='form-control' id='inputStudentBranch' placeholder='Student Branch' name='studentBranchId'>
-                        </select>
-                        </div>
-                    </div>
-
-                <div class='form-group'>
-                    <label for='inputBirthday' class='col-sm-2 control-label'>Birthday</label>
-                    <div class='col-sm-10'>
-                        <input type='date' class='form-control' id='inputBirthday' placeholder='Birthday' name='birthdate' required>
-                        </div>
-                    </div>
-                    
-                <div class='form-group'>
-                    <label for='inputCity' class='col-sm-2 control-label'>City</label>
-                    <div class='col-sm-10'>
-                        <select class='form-control' id='inputCity' placeholder='City' name='cityId'>
-                        </select>
-                        </div>
-                    </div>
-
-                <div class='form-group'>
-                    <label for='inputEngineeringDegree' class='col-sm-2 control-label'>Engineering Degree</label>
-                    <div class='col-sm-10'>
-                        <input type='text' class='form-control' id='inputEngineeringDegree' placeholder='Engineering Degree' name='area'>
-                        </div>
-                    </div>
-
-                <div class='form-group'>
-                    <label for='inputGraduationYear' class='col-sm-2 control-label'>Expected year of graduation</label>
-                    <div class='col-sm-10'>
-                        <input type='number' class='form-control' id='inputGraduationYear' placeholder='Expected year of graduation' name='graduationYear' required>
-                        </div>
-                    </div>
-
-                <div class='form-group'>
-                    <label for='inputLinkedIn' class='col-sm-2 control-label'>LinkedIn profile</label>
-                    <div class='col-sm-10'>
-                        <input type='url' class='form-control' id='inputLinkedIn' placeholder='LinkedIn profile' name='lindkedIn'>
-                        </div>
-                    </div>
-                    
-                <div class='form-group'>
-                    <label for='inputCollabratec' class='col-sm-2 control-label'>Collabratec profile</label>
-                    <div class='col-sm-10'>
-                        <input type='url' class='form-control' id='inputCollabratec' placeholder='Collabratec profile' name='collabratec'>
-                        </div>
-                    </div>
-
-                <div class='form-group'>
-                    <label for='inputBio' class='col-sm-2 control-label'>Short Bio</label>
-                    <div class='col-sm-10'>
-                        <textarea class='form-control' id='inputBio' placeholder='Short Bio' form='formRegister' name='bio'></textarea>
-                        </div>
-                    </div>
-
-                <div class='form-group'>
-                    <div class='col-sm-offset-2 col-sm-10'>
-                        <button type="button" class='btn btn-default' onclick="cancelRegister();return false;">Cancel</button>
-                        <button type='submit' class='btn btn-default'>OK</button>
-                    </div>
-                </div>
+                
             </form>
 
         </div>
