@@ -64,6 +64,7 @@ function validateRegisterEmailPassword() {
                 if (password === password2)
                 {
                     cleanAlertMessage();
+                    $("#userInformation").hide();
                     $("#preFormRegister").hide();
                     $("#formRegister").show();
                     $("#inputPassword3").val($("#inputPassword1").val());
