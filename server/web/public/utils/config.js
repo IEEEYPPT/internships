@@ -2,6 +2,8 @@
  * Created by user on 10/04/2016.
  */
 
+var debug = true;
+
 var spacer = "<div class='spacer'>&nbsp;</div>";
 
 var aboutTitle = "What is the IEEE Young Professionals Internship Program?";

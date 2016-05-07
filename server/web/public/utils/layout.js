@@ -4,12 +4,18 @@
 
 function initLayout ()
 {
+    if (debug)
+        console.log("Initiating layout");
+
     addNavbar();
     addUserInformation();
 }
 
 function addNavbar()
 {
+    if (debug)
+        console.log("Adding navbar");
+
     $('#navbar-main').append(
         "<div class='navbar navbar-inverse navbar-fixed-top'>" +
             "<div class='container'>" +
@@ -21,7 +27,7 @@ function addNavbar()
                         "<li id='linkAbout'><a href='/'> About</a></li>" +
                         "<li id='linkListStudents'><a href='#listStudents'> Students</a></li>" +
                         "<li id='linkListCompanies'><a href='#listCompanies'> Companies</a></li>" +
-                        "<li id='linkListInternships'><a href='#listInternships'> Internships</a></li>" +
+                        "<li id='linkListInternships'><a href='/internships/list'> Internships</a></li>" +
                     "</ul>" +
                 "</div><!--/.nav-collapse -->" +
             "</div>" +
@@ -43,13 +49,16 @@ function addNavbar()
     }
 }
 
-function addUserInformation () {
-
-    var user = checkUserAuthentication();
+function addUserInformation ()
+{
+    if (debug)
+        console.log("Adding user information");
 
     //clean DIV
     $('#userInformation').empty();
 
+
+    var user = checkUserAuthentication();
     //add proper information on DIV according with the type of user in the system
     switch (user) {
         case "0": //non-authenticated

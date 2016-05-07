@@ -26,7 +26,13 @@ exports.register = function (server, options, next) {
             return reply.view('./views/student/profile');
         }
     });
-
+    server.route({
+        method: 'GET',
+        path: '/internships/list',
+        handler: function (request, reply) {
+            return reply.view('./views/internships/list');
+        }
+    });
     next();
 };
 
