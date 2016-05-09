@@ -360,6 +360,48 @@ module.exports = {
         function(error){
             callback({code:"rejected", msg: 'Cities not found', description:error});
         });
+    },
+    getInternships: function (callback) {
+        Internship.findAll().then(function(internships) {
+            if(Object.keys(internships).length <= 0){
+                callback({code:"rejected", msg: "Internships not found: there are no internships available"});
+            }else{
+                callback({code:"accepted", msg: internships});
+            }
+        },
+        function(error) {
+            callback({code:"rejected",msg:"Internships not found", description:error});
+        })
+    },
+    getInternship: function (id,callback){
+        Internship.findAll({
+            where: {id: id}
+        }).then(function(internship){
+            if(Object.keys(internship).length <= 0){
+                internship = {code: "rejected", msg: "Internship not found"};
+                callback(internship);
+            }else{
+                callback(internship);   
+            }
+        },
+        function(error){
+            callback({code: "rejected", msg: 'Internship not found', description:error});
+        });
+    },
+    createInternship: function (internship,callback){
+        Internship.create({
+            title: internship.title,
+            description: internship.description,
+            publicationDate: internship.publicationDate,
+            expirationDate: internship.expirationDate
+        }).then(function(){
+            answer = {code:"accepted",msg: "Internship created with success"};
+            callback(answer);
+        },
+        function(error){
+            answer = {code:"rejected",msg: "Could not create the internship", description: error}
+            callback(answer);
+        });
     }
 };
 

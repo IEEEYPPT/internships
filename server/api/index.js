@@ -175,14 +175,18 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/internship',
         handler: function (request, reply) {
-            reply({ message: 'Internship.' });
+            db.getInternships(function(answer) {
+                reply(answer);
+            });
         }
     });
     server.route({
         method: 'GET',
         path: '/internship/{id}',
         handler: function (request, reply) {
-            reply({ message: 'Internship ' + request.params.id + '.' });
+            db.getInternship(request.params.id, function(answer) {
+                reply(answer);
+            });
         }
     });
 
