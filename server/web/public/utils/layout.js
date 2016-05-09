@@ -4,16 +4,19 @@
 
 function initLayout ()
 {
+    if (debug)
+        console.log("Initiating layout");
+
     addNavbar();
     addUserInformation();
 }
 
 function addNavbar()
 {
-    var user = checkUserAuthentication();
+    if (debug)
+        console.log("Adding navbar");
 
-    if (user == 0)
-        $('#navbar-main').append(
+    $('#navbar-main').append(
         "<div class='navbar navbar-inverse navbar-fixed-top'>" +
             "<div class='container'>" +
                 "<div class='navbar-collapse collapse'>" +
@@ -21,38 +24,41 @@ function addNavbar()
                         "<li><a href='http://yp.ieee-pt.org/'>IEEE Young Professionals Portugal</a></li>" +
                     "</ul>" +
                     "<ul class='nav navbar-nav navbar-right'>" +
-                        "<li><a href='/'> About</a></li>" +
+                        "<li id='linkAbout'><a href='/'> About</a></li>" +
+                        "<li id='linkListStudents'><a href='#listStudents'> Students</a></li>" +
+                        "<li id='linkListCompanies'><a href='#listCompanies'> Companies</a></li>" +
+                        "<li id='linkListInternships'><a href='/internships/list'> Internships</a></li>" +
                     "</ul>" +
                 "</div><!--/.nav-collapse -->" +
             "</div>" +
         "</div>"
-        );
+    );
+
+    var user = checkUserAuthentication();
+    if (user == 0)
+    {
+        $('#linkListStudents').addClass('hidden');
+        $('#linkListCompanies').addClass('hidden');
+        $('#linkListInternships').addClass('hidden');
+    }
     else
-        $('#navbar-main').append(
-            "<div class='navbar navbar-inverse navbar-fixed-top'>" +
-                "<div class='container'>" +
-                    "<div class='navbar-collapse collapse'>" +
-                        "<ul class='nav navbar-nav'>" +
-                            "<li><a href='http://yp.ieee-pt.org/'>IEEE Young Professionals Portugal</a></li>" +
-                        "</ul>" +
-                        "<ul class='nav navbar-nav navbar-right'>" +
-                            "<li><a href='/'> About</a></li>" +
-                            "<li><a href='#listStudents'> Students</a></li>" +
-                            "<li><a href='#listCompanies'> Companies</a></li>" +
-                            "<li><a href='#listInternships'> Internships</a></li>" +
-                        "</ul>" +
-                    "</div><!--/.nav-collapse -->" +
-                "</div>" +
-            "</div>"
-        );
+    {
+        $('#linkListStudents').removeClass('hidden');
+        $('#linkListCompanies').removeClass('hidden');
+        $('#linkListInternships').removeClass('hidden');
+    }
 }
 
-function addUserInformation () {
-    var user = checkUserAuthentication();
+function addUserInformation ()
+{
+    if (debug)
+        console.log("Adding user information");
 
     //clean DIV
     $('#userInformation').empty();
 
+
+    var user = checkUserAuthentication();
     //add proper information on DIV according with the type of user in the system
     switch (user) {
         case "0": //non-authenticated
@@ -79,11 +85,12 @@ function addUserInformation () {
                 "<div class='spacer'>&nbsp;</div>"
             );
             break;
-
     }
 }
 
 function loadAboutInformation () {
+    $('#linkAbout').addClass('active');
+
     $('#title').append(
         spacer + "<h2>" + aboutTitle + "<\h2>"+ spacer
     );
@@ -94,6 +101,9 @@ function loadAboutInformation () {
 }
 
 function addSigninForm() {
+    //remove active class on navbar
+    $('#linkAbout').removeClass('active');
+
     //clean DIVs
     $('#title').empty();
     $('#container').empty();
@@ -121,6 +131,9 @@ function addSigninForm() {
 }
 
 function addRegisterForm() {
+    //remove active class on navbar
+    $('#linkAbout').removeClass('active');
+
     //clean DIVs
     $('#title').empty();
     $('#container').empty();

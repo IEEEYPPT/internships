@@ -28,13 +28,8 @@
 
     <script>
         $(document).ready(function() {
-            if(sessionStorage.getItem('email'))
-                sessionStorage.removeItem('email');
-            if(sessionStorage.getItem('password'))            
-                sessionStorage.removeItem('password');
             initLayout();
             loadAboutInformation();
-            console.log(sessionStorage.getItem('user'));
         });
     </script>
 
