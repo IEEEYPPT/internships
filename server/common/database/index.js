@@ -170,11 +170,38 @@ var Company = sequelize.define('company',{
 
 Company.belongsTo(City);
 
+var Internship = sequelize.define('internship',{
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+        autoIncrement:true
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    description : {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    publicationDate : {
+        type: Sequelize.DATE,
+        allowNull: false
+    },
+    expirationDate: {
+        type: Sequelize.DATE,
+        allowNull: false
+    }
+});
+
+Internship.belongsTo(City);
+Internship.belongsTo(Company);
+
 var db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.tables = {Skill,Country,City,StudentBranch,Student,Company};
+db.tables = {Skill,Country,City,StudentBranch,Student,Company,Internship};
 
 
 // Force option enabled just for development
