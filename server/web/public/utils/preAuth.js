@@ -2,6 +2,22 @@
  * Created by user on 15/05/2016.
  */
 
+//SIGNIN FUNCTIONS
+
+function initSignin() {
+    //remove active class on navbar
+    $('#linkHome').removeClass('active');
+
+    //clean DIVs
+    $('#title').empty();
+    $('#alertMessage').empty();
+
+    //add Title
+    $('#title').append(
+        spacer + "<h2>" + signinTitle + "<\h2>"+ spacer
+    );
+}
+
 function signIn() {
     var email = document.getElementById("inputEmail1").value;
     var password = document.getElementById("inputPassword1").value;
@@ -29,6 +45,60 @@ function signIn() {
         cleanAlertMessage();
         addAlertMessage(signinError1);
     }
+}
+
+//REGISTER FUNCTIONS
+
+function initRegister() {
+    //remove active class on navbar
+    $('#linkHome').removeClass('active');
+
+    //clean DIVs
+    $('#title').empty();
+    $('#alertMessage').empty();
+    $('#registerText').empty();
+    $('#registerData').empty();
+
+    //add Title
+    $('#title').append(
+        spacer + "<h2>" + registerTitle + "<\h2>"+ spacer
+    );
+
+    //add info
+    $('#registerText').append(
+        "<h4>" + registerText + "<\h4>"+ spacer
+    );
+
+    //add register data
+    var registerForm = "";
+    for (var i=0; i < registerFields.length; i++){
+        registerForm += "<div class='form-group'>";
+        registerForm += "<label for='"+ registerFields[i].id +"' class='col-sm-3 control-label'>" + registerFields[i].placeholder + "</label>";
+        registerForm += "<div class='col-sm-9'>";
+        registerForm += "<" + registerFields[i].inputType +
+            " class='form-control' id='" + registerFields[i].id +
+            "' placeholder='" + registerFields[i].placeholder +
+            "' name='" + registerFields[i].name + "'";
+
+        if (registerFields[i].required)
+            registerForm += " required";
+
+        switch(registerFields[i].inputType)
+        {
+            case 'input':
+                registerForm += " type='" + registerFields[i].type + "'>";
+                break;
+            case 'select':
+                registerForm += "></select>";
+                break;
+            case 'textarea':
+                registerForm += "form='" + registerFields[i].form + "'></textarea>";
+                break;
+        }
+
+        registerForm += "</div></div>";
+    }
+    $('#registerData').append(registerForm);
 }
 
 function validateRegisterEmailPassword() {

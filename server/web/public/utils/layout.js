@@ -88,6 +88,30 @@ function addUserInformation ()
     }
 }
 
+/**
+ * Verifies if the user is authenticated and returns the type of user
+ * (0) Non-authenticated
+ * (1) Student
+ * (2) Company
+ * @returns {int}
+ */
+function checkUserAuthentication () {
+    if (!sessionStorage.getItem('user')) {
+        sessionStorage.setItem('user', 0);
+    }
+    return sessionStorage.getItem('user');
+}
+
+/**
+ * Sign out operation
+ * Removes user rights and data from the session
+ */
+function signOut() {
+    sessionStorage.setItem('user', 0);
+    sessionStorage.removeItem('userData');
+    addAlertMessage(signout);
+}
+
 function loadAboutInformation () {
     $('#linkHome').addClass('active');
 
@@ -100,71 +124,6 @@ function loadAboutInformation () {
     );
 }
 
-function initSignin() {
-    //remove active class on navbar
-    $('#linkHome').removeClass('active');
-
-    //clean DIVs
-    $('#title').empty();
-    $('#alertMessage').empty();
-
-    //add Title
-    $('#title').append(
-        spacer + "<h2>" + signinTitle + "<\h2>"+ spacer
-    );
-}
-
-function initRegister() {
-    //remove active class on navbar
-    $('#linkHome').removeClass('active');
-
-    //clean DIVs
-    $('#title').empty();
-    $('#alertMessage').empty();
-    $('#registerText').empty();
-    $('#registerData').empty();
-
-    //add Title
-    $('#title').append(
-        spacer + "<h2>" + registerTitle + "<\h2>"+ spacer
-    );
-
-    //add info
-    $('#registerText').append(
-        "<h4>" + registerText + "<\h4>"+ spacer
-    );
-
-    //add register data
-    var registerForm = "";
-    for (var i=0; i < registerFields.length; i++){
-        registerForm += "<div class='form-group'>";
-        registerForm += "<label for='"+ registerFields[i].id +"' class='col-sm-3 control-label'>" + registerFields[i].placeholder + "</label>";
-        registerForm += "<div class='col-sm-9'>";
-        registerForm += "<" + registerFields[i].inputType +
-            " class='form-control' id='" + registerFields[i].id +
-            "' placeholder='" + registerFields[i].placeholder +
-            "' name='" + registerFields[i].name + "'";
-
-        if (registerFields[i].required)
-            registerForm += " required";
-
-        switch(registerFields[i].inputType)
-        {
-            case 'input':
-                registerForm += " type='" + registerFields[i].type + "'>";
-                break;
-            case 'select':
-                registerForm += "></select>";
-                break;
-            case 'textarea':
-                registerForm += "form='" + registerFields[i].form + "'></textarea>";
-                break;
-        }
-
-        registerForm += "</div></div>";
-    }
-    $('#registerData').append(registerForm);
-}
 
 function addAlertMessage (msg) {
     //add message
@@ -176,7 +135,6 @@ function addAlertMessage (msg) {
 function cleanAlertMessage () {
     $('#alertMessage').empty();
 }
-
 
 function loadStudentBranchs(){
     $.get('/api/studentbranch',function(reply){
