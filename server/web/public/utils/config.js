@@ -26,3 +26,4 @@ var signinError2 = "Please, introduce a valid IEEE email.";
 var signinError3 = "Email or Password is not correct.";
 var registerError1 = "Email already exists.";
 var registerError2 = "Mismatched Passwords.";
+var signout = "User successfully signed out.";
