@@ -25,4 +25,3 @@ function signOut() {
     sessionStorage.removeItem('userData');
     addAlertMessage(signout);
 }
-

@@ -26,17 +26,18 @@
     <script src="/public/utils/config.js"></script>
     <script src="/public/utils/layout.js"></script>
     <script src="/public/utils/user.js"></script>
+    <script src="/public/utils/student.js"></script>
 
     <!-- Favicon File -->
     <link rel="shortcut icon" href="/public/favicon.ico" />
     
     <script>
         $(document).ready(function() {
-            if(sessionStorage.getItem('user') != 0){
+            if(sessionStorage.getItem('user') == 1){
                 initLayout();
+                showStudentProfile();
             } else {
-                //fancy error output needed
-                window.location.href = '/';
+                window.location.href = '/error';
             }
         });
     </script>
@@ -46,23 +47,31 @@
 
 <div id="navbar-main"></div>
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 main">
+        <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 main">
 
-        <div id="userInformation" class="text-right"></div>
+            <div id="userInformation" class="text-right"></div>
 
-        <div id="title">
-            <div class='spacer'>&nbsp;</div>
-                <h2>Profile</h2>
-            <div class='spacer'>&nbsp;</div>
+            <div class="text-right">
+                <div class="btn-group" role="group" aria-label="userOptions" id="userOptions">
+                    <button type="button" class="btn btn-default" onclick="window.location.href='/student/internships'">My Internships</button>
+                    <button type="button" class="btn btn-default" onclick="window.location.href='/student/editProfile'">Edit Profile</button>
+                    <button type="button" class="btn btn-default" onclick="deleteUser();">Delete Profile</button>
+                </div>
+            </div>
+
+            <div id="title">
+                <div class='spacer'>&nbsp;</div>
+                    <h2>Profile</h2>
+                <div class='spacer'>&nbsp;</div>
+            </div>
+
+            <div id="container"></div>
+
         </div>
 
-        <div id="container"></div>
-
     </div>
-
-</div>
 
 </body>
 </html>

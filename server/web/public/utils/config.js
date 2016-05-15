@@ -27,3 +27,20 @@ var signinError3 = "Email or Password is not correct.";
 var registerError1 = "Email already exists.";
 var registerError2 = "Mismatched Passwords.";
 var signout = "User successfully signed out.";
+var deleteUserMessage = "Are you sure you want to delete this user?";
+
+//REGISTER OPTIONS
+
+var registerFields = [
+    {id:'inputFirstName', placeholder:'First Name', inputType:'input', type:'text', name:'firstName', required:true},
+    {id:'inputLastName', placeholder:'Last Name', inputType:'input', type:'text', name:'lastName', required:true},
+    {id:'inputIEEENumber', placeholder:'IEEE Member Number', inputType:'input', type:'number', name:'ieeeNumber', required:true},
+    {id:'inputStudentBranch', placeholder:'Student Branch', inputType:'select', type:null, name:'studentBranchId', required:false},
+    {id:'inputBirthday', placeholder:'Birthday', inputType:'input', type:'date', name:'birthdate', required:true},
+    {id:'inputCity', placeholder:'City', inputType:'select', type:null, name:'cityId', required:false},
+    {id:'inputEngineeringDegree', placeholder:'Engineering Degree', inputType:'input', type:'text', name:'area', required:false},
+    {id:'inputGraduationYear', placeholder:'Expected year of graduation', inputType:'input', type:'number', name:'graduationYear', required:true},
+    {id:'inputLinkedIn', placeholder:'LinkedIn profile', inputType:'input', type:'url', name:'lindkedIn', required:false},
+    {id:'inputCollabratec', placeholder:'Collabratec profile', inputType:'input', type:'url', name:'collabratec', required:false},
+    {id:'inputBio', placeholder:'Short Bio', inputType:'textarea', form:'formRegister', name:'bio', required:false}
+];
