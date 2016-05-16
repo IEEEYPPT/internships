@@ -84,7 +84,11 @@ function validateRegisterEmailPassword() {
 
         if(pattern.test(email)){
             $.post('/api/student/email',{email},function(reply){
-                if (password === password2)
+                if(reply.code == 'rejected'){
+                    cleanAlertMessage();
+                    addAlertMessage(registerError1);
+                }
+                else if (password === password2)
                 {
                     cleanAlertMessage();
                     $("#userInformation").hide();
