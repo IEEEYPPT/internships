@@ -18,5 +18,20 @@ function showStudentProfile() {
     //clean DIV
     $('#container').empty();
 
-    console.log(sessionStorage.getItem('userData'));
+    var data = getUserData();
+    console.log(data);
+    var txt = "";
+    for (var key in data) {
+        txt += "<div class='row'><h4>";
+        txt += "<div class='col-sm-offset-1 col-sm-4'>";
+        txt += getExternalNameFromUserData(key);
+        txt += "</div>";
+        txt += "<div class='col-sm-6'>";
+        txt += "<small>" + data[key] + "</small>";
+        txt += "</div>";
+        txt += "</h4></div>";
+        txt += spacer;
+    }
+    console.log(txt);
+    $('#container').append(txt);
 }

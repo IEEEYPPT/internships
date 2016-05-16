@@ -89,20 +89,6 @@ function addUserInformation ()
 }
 
 /**
- * Verifies if the user is authenticated and returns the type of user
- * (0) Non-authenticated
- * (1) Student
- * (2) Company
- * @returns {int}
- */
-function checkUserAuthentication () {
-    if (!sessionStorage.getItem('user')) {
-        sessionStorage.setItem('user', 0);
-    }
-    return sessionStorage.getItem('user');
-}
-
-/**
  * Sign out operation
  * Removes user rights and data from the session
  */
@@ -123,7 +109,6 @@ function loadAboutInformation () {
         spacer + aboutText + spacer
     );
 }
-
 
 function addAlertMessage (msg) {
     //add message

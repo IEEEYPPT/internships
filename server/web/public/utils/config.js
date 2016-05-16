@@ -39,8 +39,8 @@ var registerFields = [
     {id:'inputBirthday', placeholder:'Birthday', inputType:'input', type:'date', name:'birthdate', required:true},
     {id:'inputCity', placeholder:'City', inputType:'select', type:null, name:'cityId', required:false},
     {id:'inputEngineeringDegree', placeholder:'Engineering Degree', inputType:'input', type:'text', name:'area', required:false},
-    {id:'inputGraduationYear', placeholder:'Expected year of graduation', inputType:'input', type:'number', name:'graduationYear', required:true},
-    {id:'inputLinkedIn', placeholder:'LinkedIn profile', inputType:'input', type:'url', name:'lindkedIn', required:false},
-    {id:'inputCollabratec', placeholder:'Collabratec profile', inputType:'input', type:'url', name:'collabratec', required:false},
+    {id:'inputGraduationYear', placeholder:'Expected Year of Graduation', inputType:'input', type:'number', name:'graduationYear', required:true},
+    {id:'inputLinkedIn', placeholder:'LinkedIn Profile', inputType:'input', type:'url', name:'linkedIn', required:false},
+    {id:'inputCollabratec', placeholder:'Collabratec Profile', inputType:'input', type:'url', name:'collabratec', required:false},
     {id:'inputBio', placeholder:'Short Bio', inputType:'textarea', form:'formRegister', name:'bio', required:false}
 ];
