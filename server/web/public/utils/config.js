@@ -31,7 +31,6 @@ var deleteUserMessage = "Are you sure you want to delete this user?";
 var confirmCancelEditProfile = "If you cancel this operation, all the alterations made will be lost.";
 
 //REGISTER OPTIONS
-
 var registerFields = [
     {id:'inputFirstName', placeholder:'First Name', inputType:'input', type:'text', name:'firstName', required:true},
     {id:'inputLastName', placeholder:'Last Name', inputType:'input', type:'text', name:'lastName', required:true},
@@ -44,4 +43,27 @@ var registerFields = [
     {id:'inputLinkedIn', placeholder:'LinkedIn Profile', inputType:'input', type:'url', name:'linkedIn', required:false},
     {id:'inputCollabratec', placeholder:'Collabratec Profile', inputType:'input', type:'url', name:'collabratec', required:false},
     {id:'inputBio', placeholder:'Short Bio', inputType:'textarea', form:'formRegister', name:'bio', required:false}
+];
+
+//TABLES OPTIONS
+
+var studentsTable = [
+    {header:"First Name", name:'firstName'},
+    {header:"Last Name", name:'lastName'},
+    {header:"Engineering Degree", name:'area'}
+];
+
+var companiesTable = [
+    {header:"Company Name", name:'companyName'},
+    {header:"Location", name:'location'},
+    {header:"Field of Work", name:'field'},
+    {header:"Available Internships", name:'numberInternships'}
+];
+
+var internshipsTable = [
+    {header:"Title", name:'title'},
+    {header:"Company", name:'companyName'},
+    {header:"Location", name:'location'},
+    {header:"Publication Date", name:'publicationDate'},
+    {header:"Expiration Date", name:'expirationDate'}
 ];

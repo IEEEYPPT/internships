@@ -24,6 +24,8 @@
     <!-- Javascript Files -->
     <script src="/public/utils/config.js"></script>
     <script src="/public/utils/layout.js"></script>
+    <script src="/public/utils/general.js"></script>
+    <script src="/public/utils/student.js"></script>
 
     <!-- Favicon File -->
     <link rel="shortcut icon" href="/public/favicon.ico" />
@@ -31,7 +33,8 @@
     <script>
         $(document).ready(function() {
             initLayout();
-            loadAboutInformation();
+            $('#linkListStudents').addClass('active');
+            listStudents();
         });
     </script>
 
@@ -48,8 +51,17 @@
 
         <div id="userInformation" class="text-right"></div>
 
-        <div id="title">List Students</div>
-        <div id="container"></div>
+        <div id="title">
+            <div class='spacer'>&nbsp;</div>
+            <h2>Students</h2>
+            <div class='spacer'>&nbsp;</div>
+        </div>
+
+        <div id="container">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover" id="listStudents"></table>
+            </div>
+        </div>
 
     </div>
 

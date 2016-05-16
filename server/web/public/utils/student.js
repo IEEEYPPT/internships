@@ -91,3 +91,17 @@ function cancelProfileEdition() {
         window.location.href = '/student/profile';
     }
 }
+
+function listStudents() {
+    //Table Header
+    var header = "<thead><tr>";
+    for (var i=0; i< studentsTable.length; i++)
+        header += "<th class='text-center'>" + studentsTable[i].header + "</th>";
+    header += "</tr></thead>";
+    $('#listStudents').append(header);
+
+    //Table Content
+    var body = "<tbody></tbody>";
+    //TODO GET INFO FROM SERVER
+    $('#listStudents').append(body);
+}
