@@ -28,6 +28,7 @@ var registerError1 = "Email already exists.";
 var registerError2 = "Mismatched Passwords.";
 var signout = "User successfully signed out.";
 var deleteUserMessage = "Are you sure you want to delete this user?";
+var confirmCancelEditProfile = "If you cancel this operation, all the alterations made will be lost.";
 
 //REGISTER OPTIONS
 

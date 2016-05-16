@@ -110,6 +110,52 @@ function loadAboutInformation () {
     );
 }
 
+function createStudentProfileForm ()
+{
+    var registerForm = "";
+    var data = getUserData();
+
+    for (var i=0; i < registerFields.length; i++){
+        registerForm += "<div class='form-group'>";
+        registerForm += "<label for='"+ registerFields[i].id +"' class='col-sm-3 control-label'>" + registerFields[i].placeholder + "</label>";
+        registerForm += "<div class='col-sm-9'>";
+        registerForm += "<" + registerFields[i].inputType +
+            " class='form-control' id='" + registerFields[i].id +
+            "' placeholder='" + registerFields[i].placeholder +
+            "' name='" + registerFields[i].name + "'";
+
+        if (registerFields[i].required)
+            registerForm += " required";
+
+        switch(registerFields[i].inputType)
+        {
+            case 'input':
+                registerForm += " type='" + registerFields[i].type + "'";
+                if(data && data.hasOwnProperty(registerFields[i].name))
+                    registerForm += " value='" + data[registerFields[i].name] + "'";
+                registerForm += ">";
+                break;
+            case 'select':
+                registerForm += "></select>";
+                break;
+            case 'textarea':
+                registerForm += "form='" + registerFields[i].form + "'>";
+                if(data && data.hasOwnProperty(registerFields[i].name))
+                    registerForm += data[registerFields[i].name];
+                registerForm +="</textarea>";
+                break;
+        }
+
+        registerForm += "</div></div>";
+    }
+
+    loadStudentBranchs();
+    loadCities();
+
+    console.log(data);
+    return registerForm;
+}
+
 function addAlertMessage (msg) {
     //add message
     $('#alertMessage').append(
@@ -122,11 +168,18 @@ function cleanAlertMessage () {
 }
 
 function loadStudentBranchs(){
+    var data = getUserData();
+
     $.get('/api/studentbranch',function(reply){
         if(reply.code){
             if(reply.code == "accepted" && reply.msg.constructor === Array){
-                for(i = 0; i < reply.msg.length;i++){
+                for(var i = 0; i < reply.msg.length;i++){
                     $('#inputStudentBranch').append($('<option></option>').val(reply.msg[i].id).html(reply.msg[i].name));
+                }
+
+                if(data && data.hasOwnProperty('studentBranchId')) {
+                    $('#inputStudentBranch').val(parseInt(data['studentBranchId']));
+                    $('#inputStudentBranch').change();
                 }
             } else {
                 //error handling
@@ -136,11 +189,18 @@ function loadStudentBranchs(){
 }
 
 function loadCities(){
+    var data = getUserData();
+
     $.get('/api/city',function(reply){
         if(reply.code){
             if(reply.code == "accepted" && reply.msg.constructor === Array){
-                for(i = 0; i < reply.msg.length;i++){
+                for(var i = 0; i < reply.msg.length;i++){
                     $('#inputCity').append($('<option></option>').val(reply.msg[i].id).html(reply.msg[i].name));
+                }
+
+                if(data && data.hasOwnProperty('cityId')) {
+                    $('#inputCity').val(parseInt(data['cityId']));
+                    $('#inputCity').change();
                 }
             } else {
                 //error handling

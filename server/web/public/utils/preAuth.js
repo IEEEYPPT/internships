@@ -70,35 +70,7 @@ function initRegister() {
     );
 
     //add register data
-    var registerForm = "";
-    for (var i=0; i < registerFields.length; i++){
-        registerForm += "<div class='form-group'>";
-        registerForm += "<label for='"+ registerFields[i].id +"' class='col-sm-3 control-label'>" + registerFields[i].placeholder + "</label>";
-        registerForm += "<div class='col-sm-9'>";
-        registerForm += "<" + registerFields[i].inputType +
-            " class='form-control' id='" + registerFields[i].id +
-            "' placeholder='" + registerFields[i].placeholder +
-            "' name='" + registerFields[i].name + "'";
-
-        if (registerFields[i].required)
-            registerForm += " required";
-
-        switch(registerFields[i].inputType)
-        {
-            case 'input':
-                registerForm += " type='" + registerFields[i].type + "'>";
-                break;
-            case 'select':
-                registerForm += "></select>";
-                break;
-            case 'textarea':
-                registerForm += "form='" + registerFields[i].form + "'></textarea>";
-                break;
-        }
-
-        registerForm += "</div></div>";
-    }
-    $('#registerData').append(registerForm);
+    $('#registerData').append(createStudentProfileForm());
 }
 
 function validateRegisterEmailPassword() {
@@ -120,8 +92,6 @@ function validateRegisterEmailPassword() {
                     $("#formRegister").show();
                     $("#inputPassword3").val($("#inputPassword1").val());
                     $("#inputEmail2").val($("#inputEmail1").val());
-                    loadStudentBranchs();
-                    loadCities();
                     $( "#inputGraduationYear" ).attr( "min", new Date().getFullYear() );
                     sendRegister();
                 }
@@ -160,7 +130,7 @@ function sendRegister() {
                     var userData = {
                         firstName:reply.data.firstName,
                         lastName:reply.data.lastName,
-                        number:reply.data.number,
+                        ieeeNumber:reply.data.ieeeNumber,
                         studentBranchId:reply.data.studentBranchId,
                         birthdate:reply.data.birthdate,
                         city:reply.data.city,

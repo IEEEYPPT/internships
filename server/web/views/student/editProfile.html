@@ -1,10 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SHIELD - Free Bootstrap 3 Theme">
+
+    <title>Internships - IEEE Young Professionals Portugal</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/public/css/main.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.css" rel="stylesheet">
+    <link href="/public/css/animate-custom.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/public/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Files -->
+    <script src="/public/js/bootstrap.min.js"></script>
+
+    <!-- Javascript Files -->
+    <script src="/public/utils/config.js"></script>
+    <script src="/public/utils/layout.js"></script>
+    <script src="/public/utils/general.js"></script>
+    <script src="/public/utils/student.js"></script>
+
+    <!-- Favicon File -->
+    <link rel="shortcut icon" href="/public/favicon.ico" />
+
+    <script>
+        $(document).ready(function() {
+            if(sessionStorage.getItem('user') == 1){
+                initLayout();
+                addEditProfileForm();
+            } else {
+                window.location.href = '/error';
+            }
+        });
+    </script>
+
 </head>
 <body>
+
+<div id="navbar-main"></div>
+
+<div class="container-fluid">
+
+    <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 main">
+
+        <div id="userInformation" class="text-right"></div>
+
+        <div id="title">
+            <div class='spacer'>&nbsp;</div>
+            <h2>Edit Profile</h2>
+            <div class='spacer'>&nbsp;</div>
+        </div>
+
+        <div id="container">
+            <form class='form-horizontal' id='formEditStudentProfile'>
+
+                <div id="editStudentProfile"></div>
+
+                <div class='form-group'>
+                    <div class='col-sm-offset-3 col-sm-10'>
+                        <button type='button' class='btn btn-default' onclick='cancelProfileEdition();return false;'>Cancel</button>
+                        <button type='submit' class='btn btn-default' type='submit'>OK</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
