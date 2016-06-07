@@ -29,6 +29,7 @@
     "glue": "3.x.x",
     "handlebars": "^4.0.5",
     "hapi": "12.x.x",
+    "hapi-auth-basic": "^4.2.0",
     "hoek": "3.x.x",
     "inert": "^3.2.0",
     "pg": "^4.5.1",

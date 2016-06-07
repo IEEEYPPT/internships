@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../common/database/index.js');
+const functions = require('../common/database/functions.js');
 
 exports.register = function (server, options, next) {
 
@@ -15,7 +15,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/company',
         handler: function (request, reply) {
-            db.getCompanies(function(answer) {
+            functions.getCompanies(function(answer) {
                 reply(answer);
             });
         }
@@ -31,10 +31,10 @@ exports.register = function (server, options, next) {
                 description:request.payload.description
             };
             if(company.email && company.password && company.name && company.description){
-                 db.cryptPassword(company.password,function (err,hash) {
+                 functions.cryptPassword(company.password,function (err,hash) {
                      if(!err){
                          company.password = hash;
-                         db.createCompany(company,function(answer) {
+                         functions.createCompany(company,function(answer) {
                              reply(answer);
                          });
                      }
@@ -48,7 +48,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/company/{id}',
         handler: function (request, reply) {
-            db.getCompany(request.params.id, function(answer) {
+            functions.getCompany(request.params.id, function(answer) {
                 reply(answer);
             });
         }
@@ -57,7 +57,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/student',
         handler: function (request, reply) {
-            db.getStudents(function(answer) {
+            functions.getStudents(function(answer) {
                 reply(answer);
             });
         }
@@ -71,7 +71,7 @@ exports.register = function (server, options, next) {
              && request.payload.firstName && request.payload.lastName && request.payload.birthdate 
              && request.payload.graduationYear){
                  
-                 db.cryptPassword(request.payload.password,function (err,hash) {
+                 functions.cryptPassword(request.payload.password,function (err,hash) {
                      if(!err){
                          var student = {
                              email:request.payload.email,
@@ -101,7 +101,7 @@ exports.register = function (server, options, next) {
                          if(request.payload.area){
                              student.area = request.payload.area;
                          }
-                         db.createStudent(student,function(answer) {
+                         functions.createStudent(student,function(answer) {
                              reply(answer);
                          });
                      }
@@ -116,7 +116,7 @@ exports.register = function (server, options, next) {
         path: '/student/login',
         handler: function (request, reply) {
             if(request.payload.email && request.payload.password){
-                db.checkStudentLogin(request.payload.email,request.payload.password,function(answer) {
+                functions.checkStudentLogin(request.payload.email,request.payload.password,function(answer) {
                     reply(answer);
                 });
             } else {
@@ -129,7 +129,7 @@ exports.register = function (server, options, next) {
         path: '/student/email',
         handler: function (request, reply) {
             if(request.payload.email){
-                db.checkStudentEmailNotUsed(request.payload.email,function(answer) {
+                functions.checkStudentEmailNotUsed(request.payload.email,function(answer) {
                     if(answer){
                         answer = {code: "accepted",msg: "Email not used"};
                         reply(answer);
@@ -148,7 +148,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/student/{id}',
         handler: function (request, reply) {
-            db.getStudent(request.params.id, function(answer) {
+            functions.getStudent(request.params.id, function(answer) {
                 reply(answer);
             });
         }
@@ -157,7 +157,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/studentbranch',
         handler: function (request, reply) {
-            db.getStudentBranchs(function(answer) {
+            functions.getStudentBranchs(function(answer) {
                 reply(answer);
             });
         }
@@ -166,7 +166,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/city',
         handler: function (request, reply) {
-            db.getCities(function(answer) {
+            functions.getCities(function(answer) {
                 reply(answer);
             });
         }
@@ -175,7 +175,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/internship',
         handler: function (request, reply) {
-            db.getInternships(function(answer) {
+            functions.getInternships(function(answer) {
                 reply(answer);
             });
         }
@@ -184,7 +184,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/internship/{id}',
         handler: function (request, reply) {
-            db.getInternship(request.params.id, function(answer) {
+            functions.getInternship(request.params.id, function(answer) {
                 reply(answer);
             });
         }

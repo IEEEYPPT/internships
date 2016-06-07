@@ -2,6 +2,8 @@
 
 const Composer = require('./index');
 const Inert = require('inert');
+const Basic = require('hapi-auth-basic');
+const AuthFunctions = require('./server/common/authentication/auth.js')
 
 Composer((err, server) => {
 

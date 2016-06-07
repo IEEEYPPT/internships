@@ -1,7 +1,5 @@
 'use strict';
 
-const Inert = require('inert');
-
 exports.register = function (server, options, next) {
 
     server.route({

@@ -1,3 +1,5 @@
+var functions = require('./functions.js');
+
 module.exports = function(db) {
 
   db.tables.Country.create({
@@ -35,6 +37,23 @@ module.exports = function(db) {
             name:'Universidade do Porto',
             cityId: city.id
         }]);
+        db.tables.Company.create({
+            email:'contact@company.com',
+            password:'12345',
+            name:'CRITICAL Software',
+            description:'Fundada em 1998, A CRITICAL Software é especializada no desenvolvimento de soluções de software e serviços de engenharia de informação para o suporte de sistemas críticos orientados à segurança, à missão e ao negócio de empresas.',
+            field:'Software Development',
+            cityId: city.id
+        }).then(function(company){
+            db.tables.Internship.create({
+                title:'Software Developer',
+                description: 'Mainly Java developer',
+                publicationDate: '2016/05/17',
+                expirationDate: '2016/05/24',
+                cityId: city.id,
+                companyId:company.id
+            })
+        });
     });
     db.tables.City.create({
              name: 'Lisboa',
@@ -115,7 +134,7 @@ module.exports = function(db) {
     }]);
   });
   
-  db.exports.cryptPassword('12345',function(err,salt){
+  functions.cryptPassword('12345',function(err,salt){
       if(err){
           //error
       } else {
