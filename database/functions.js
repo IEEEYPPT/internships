@@ -32,7 +32,6 @@ module.exports = {
     },
     createStudent: function (student,callback){
         db.insert(student).into('student').then(function(result){
-            console.log(result);
              if(result.rowCount == 1){
                  callback({code:201,message: "Student created with success"});
              } else {
