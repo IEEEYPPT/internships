@@ -4,10 +4,9 @@
   "description": "IEEE Young Professionals Portugal Internships",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "devel": "nodemon server.js",
-    "test": "lab -c -L",
-    "test-cover": "lab -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html"
+    "start": "node index.js",
+    "dev": "npm start",
+    "nodemon": "nodemon --exec npm run-script dev"
   },
   "repository": {
     "type": "git",
@@ -16,31 +15,17 @@
   "author": "IEEE Young Professionals Portugal <yp.portugal@ieee-pt.org>",
   "license": "UNLICENSED",
   "private": true,
-  "bugs": {
-    "url": "https://github.com/IEEEYPPT/internships/issues"
-  },
   "homepage": "https://github.com/IEEEYPPT/internships",
-  "engines": {
-    "node": ">=4.0.0"
-  },
   "dependencies": {
-    "bcrypt": "^0.8.5",
-    "confidence": "1.x.x",
-    "glue": "3.x.x",
+    "bcrypt": "^0.8.7",
     "handlebars": "^4.0.5",
-    "hapi": "12.x.x",
-    "hapi-auth-basic": "^4.2.0",
-    "hoek": "3.x.x",
-    "inert": "^3.2.0",
-    "pg": "^4.5.1",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^3.19.3",
-    "vision": "4.x.x",
-    "visionary": "4.x.x"
-  },
-  "devDependencies": {
-    "code": "2.x.x",
-    "lab": "8.x.x",
-    "nodemon": "1.x.x"
+    "hapi": "^13.4.1",
+    "hapi-auth-cookie": "^6.1.1",
+    "inert": "^4.0.0",
+    "knex": "^0.11.7",
+    "nodemon": "^1.11.0",
+    "pg": "^5.2.0",
+    "uuid": "^3.0.1",
+    "vision": "^4.1.0"
   }
 }

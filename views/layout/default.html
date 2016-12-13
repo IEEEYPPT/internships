@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Internships - IEEE Young Professionals Portugal</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/public/css/main.css" rel="stylesheet">
+    <link href="/public/css/template.css" rel="stylesheet">
+    <link href="/public/css/bootstrap.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/public/css/animate-custom.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <!-- Bootstrap Files -->
+    <script src="/public/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Javascript Files -->
+    <script src="/public/utils/config.js"></script>
+    <script src="/public/utils/layout.js"></script>
+    <script src="/public/utils/general.js"></script>
+
+    <!-- Favicon File -->
+    <link rel="shortcut icon" href="/public/favicon.ico" />
+</head>
+<body>
+
+    <div id="navbar-main">
+        {{> navbar}}
+    </div>
+
+    <div class="container-fluid">
+        <div class="row" id="main-content">
+            {{#each errors}}
+            <div class="alert alert-danger alert-dismissible col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Error!</strong> {{message}}
+            </div>
+            {{/each}}
+            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 main">
+                {{#if title}}<div id="title"><h1>{{title}}</h1></div>{{/if}}
+                <div id="container" class="text-justify">{{{content}}}</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
