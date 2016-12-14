@@ -31,10 +31,11 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
+                var data = {title:"Sign in",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
-                if(request.method === 'post'){
+                else if(request.method === 'post'){
                     if(request.payload.email && request.payload.password){
                         DatabaseFunctions.checkStudentLogin(request.payload.email,request.payload.password,function(answer) {
                             if(answer.code == 200){
@@ -49,24 +50,15 @@ module.exports = function(server) {
                                     return reply.redirect('/');
                                 });
                             } else {
-                                var data = {
-                                    title: "Sign in",
-                                    errors: [{message:"Wrong email/password"}]
-                                }
+                                data.errors.push({message:"Wrong email/password"});
                                 return reply.view("login",data);    
                             }
                         });
                     } else {
-                        var data = {
-                            title: "Sign in",
-                            errors: [{message:"Missing email/password"}]
-                        }
+                        data.errors.push({message:"Missing email/password"});
                         return reply.view("login",data);
                     }
                 } else {
-                    var data = {
-                        title: "Sign in"
-                    };
                     return reply.view("login",data);
                 }
             }
@@ -92,6 +84,7 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
+                var data = {title:"Register",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
@@ -105,58 +98,42 @@ module.exports = function(server) {
                                     if(result.code == 201){
                                         return reply.redirect("/");
                                     } else {
-                                        errors.push({message: "Missing, wrong or already used values"});
+                                        data.errors.push({message: "Missing, wrong or already used values"});
                                         DatabaseFunctions.getCities(function(cities){
-                                            DatabaseFunctions.getStudentBranchs(function(sbs){     
-                                                var data = {
-                                                    title: "Register",
-                                                    cities: cities.message,
-                                                    sbs: sbs.message,
-                                                    errors: errors
-                                                };
+                                            DatabaseFunctions.getStudentBranchs(function(sbs){
+                                                data.sbs = sbs.message;
+                                                data.cities = cities.message;
                                                 return reply.view("register",data);
                                             })
                                         });                       
                                     }
                                 })
                             } else {
-                                errors.push({message: "Missing, wrong or already used values"});
+                                data.errors.push({message: "Missing, wrong or already used values"});
                                 DatabaseFunctions.getCities(function(cities){
-                                    DatabaseFunctions.getStudentBranchs(function(sbs){     
-                                        var data = {
-                                            title: "Register",
-                                            cities: cities.message,
-                                            sbs: sbs.message,
-                                            errors: errors
-                                        };
+                                    DatabaseFunctions.getStudentBranchs(function(sbs){    
+                                        data.sbs = sbs.message;
+                                        data.cities = cities.message;
                                         return reply.view("register",data);
                                     })
                                 });
                             }
                         })
                     } else {
-                        errors.push({message: "Missing, wrong or already used values"});
+                        data.errors.push({message: "Missing, wrong or already used values"});
                         DatabaseFunctions.getCities(function(cities){
-                            DatabaseFunctions.getStudentBranchs(function(sbs){     
-                                var data = {
-                                    title: "Register",
-                                    cities: cities.message,
-                                    sbs: sbs.message,
-                                    errors: errors
-                                };
+                            DatabaseFunctions.getStudentBranchs(function(sbs){    
+                                data.sbs = sbs.message;
+                                data.cities = cities.message;
                                 return reply.view("register",data);
                             })
                         });     
                     }   
                 } else {                
                     DatabaseFunctions.getCities(function(cities){
-                        DatabaseFunctions.getStudentBranchs(function(sbs){     
-                            var data = {
-                                title: "Register",
-                                cities: cities.message,
-                                sbs: sbs.message,
-                                errors: errors
-                            };
+                        DatabaseFunctions.getStudentBranchs(function(sbs){    
+                            data.sbs = sbs.message;
+                            data.cities = cities.message;
                             return reply.view("register",data);
                         })
                     });
@@ -170,12 +147,13 @@ module.exports = function(server) {
         path: '/profile',
         config: {
             handler: function (request,reply){
+                var data = {
+                    authenticated: request.auth.isAuthenticated,
+                    errors: []
+                };
                 DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
                     if(answer.code == 200){
-                        var data = {
-                            authenticated: request.auth.isAuthenticated,
-                            student: answer.message
-                        }
+                        data.student = answer.message;
                         data.student.birthdate = new Date(data.student.birthdate);
                         data.student.birthdate = data.student.birthdate.toLocaleDateString();
                         DatabaseFunctions.getStudentBranch(data.student.student_branch_id,function(answer){
@@ -191,15 +169,12 @@ module.exports = function(server) {
                                     }
                                 });
                             } else {
-                                data.errors = [{message:"Couldn't fetch student data"}];
+                                data.errors.push({message:"Couldn't fetch student data"});
                                 return reply.view("profile",data);
                             }
                         });
                     } else {
-                        var data = {
-                            authenticated: request.auth.isAuthenticated,
-                            errors: [{message:"Couldn't fetch student data"}]
-                        }
+                        data.errors.push({message:"Couldn't fetch student data"});
                         return reply.view("profile",data);
                     }
                 })
