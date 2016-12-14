@@ -1,0 +1,40 @@
+{{!< layout/default}}
+{{#if student}}
+<div class="row">
+    <div class="col-md-4 col-xs-12">
+        <img class="img-responsive" src="http://placehold.it/350x350">
+    </div>
+    <div class="col-md-8 col-xs-12">
+        <h2>{{student.first_name}}  {{student.last_name}}</h2>
+        <div class="well">
+            IEEE Number: {{student.ieee_code}}<br>
+            Birthdate: {{student.birthdate}}<br>
+            City: {{student.city_name}}<br>
+            Student Branch: {{student.student_branch_name}}<br>
+            Area: {{student.area}}<br>
+            Graduation Year: {{student.graduation_year}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+        <h3>Biography</h3>
+        <div class="well">
+            {{student.bio}}
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6">
+        <h3>Social</h3>
+        <div class="well">
+            <b>Linkedin</b> {{student.linkedin}}<br>
+            <b>Collabratec</b> {{student.collabratec}}
+        </div>
+    </div>
+</div>
+{{else}}
+<div class="row">
+    <div class="col-xs-12">
+        <p>Error fetching data!</p>
+    </div>
+</div>
+{{/if}}

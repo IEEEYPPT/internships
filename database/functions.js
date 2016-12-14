@@ -63,7 +63,7 @@ module.exports = {
     getCompany : function (id, callback) {
         db('company').where({
             id : id
-        }).select('id','name','description','field',
+        }).select('id','name','email','description','field',
         'city_id').then(function(company){
             if(Object.keys(company).length == 1){
                 callback({code:200,message:company[0]});
@@ -73,7 +73,7 @@ module.exports = {
         });
     },
     getCompanies : function(callback){
-        db.select('id','name','description','field',
+        db.select('id','name','description','email','field',
         'city_id').from('company').then(function(companies){
             if(Object.keys(companies).length <= 0){
                 callback({code:404,message:"There are no companies available"});

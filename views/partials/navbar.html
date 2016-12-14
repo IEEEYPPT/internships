@@ -6,10 +6,10 @@
             </ul>
             <ul class='nav navbar-nav navbar-right'>
                 {{#if authenticated}}
+                <li id='link-list-companies'><a href='/company'>Companies</a></li>
                 <li id='link-profile'><a href="/profile">Profile</a></li>
                 <li id='link-logout'><a href="/logout">Logout</a></li>
                 <!--<li id='linkListStudents'><a href='/student/list'>Students</a></li>-->
-                <!--<li id='linkListCompanies'><a href='/company/list'>Companies</a></li>-->
                 <!--<li id='linkListInternships'><a href='/internship/list'>Internships</a></li>-->
                 {{else}}
                 <li id='link-register'><a href="/register">Register</a></li>

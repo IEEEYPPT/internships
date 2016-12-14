@@ -3,6 +3,7 @@
 const DatabaseFunctions = require('./../../database/functions.js');
 const UtilsFunctions = require('./../../utils/functions.js');
 const uuidV4 = require('uuid/v4');
+const Joi = require('joi');
 
 module.exports = function(server) {
 
@@ -142,6 +143,62 @@ module.exports = function(server) {
         }
     });
 
+    
+    server.route({
+        method: 'GET',
+        path: '/company',
+        config: {
+            handler: function(request, reply){
+                var data = {title: "Companies",errors:[],authenticated: request.auth.isAuthenticated};
+                DatabaseFunctions.getCompanies(function(companies){
+                    if(companies.code == 200){
+                        data.companies = companies.message;
+                        return reply.view("company/list",data);
+                    } else {
+                        data.errors.push({message: "Error fetching companies from database"});
+                        return reply.view("company/list",data);
+                    }
+                })
+            }
+        }
+        
+    })
+
+    server.route({
+        method: 'GET',
+        path: '/company/{id}',
+        config: {
+            validate: {
+                params: {
+                    id: Joi.number().integer().required()
+                }
+            },
+            handler: function(request,reply){
+                var data = {
+                    authenticated: request.auth.isAuthenticated,
+                    errors: []
+                };
+                DatabaseFunctions.getCompany(encodeURIComponent(request.params.id),function(answer){
+                    if(answer.code == 200){
+                        data.company = answer.message;
+                        DatabaseFunctions.getCity(data.company.city_id, function(answer){
+                            if(answer.code == 200){
+                                data.company.city_name = answer.message.name;
+                                return reply.view('company/profile',data);
+                            } else {
+                                data.errors = [{message:"Couldn't fetch company data"}];
+                                return reply.view('company/profile',data);
+                            }
+                        })
+                    } else {
+                        data.errors = [{message:"Couldn't fetch company data"}];
+                        return reply.view('company/profile',data);
+                    }
+                })
+            }
+        }
+    })
+
     server.route({
         method: 'GET',
         path: '/profile',
@@ -162,20 +219,20 @@ module.exports = function(server) {
                                 DatabaseFunctions.getCity(data.student.city_id,function(answer){
                                     if(answer.code == 200){
                                         data.student.city_name = answer.message.name;
-                                        return reply.view("profile",data);
+                                        return reply.view("student/profile",data);
                                     } else {
                                         data.errors = [{message:"Couldn't fetch student data"}];
-                                        return reply.view("profile",data);
+                                        return reply.view("student/profile",data);
                                     }
                                 });
                             } else {
                                 data.errors.push({message:"Couldn't fetch student data"});
-                                return reply.view("profile",data);
+                                return reply.view("student/profile",data);
                             }
                         });
                     } else {
                         data.errors.push({message:"Couldn't fetch student data"});
-                        return reply.view("profile",data);
+                        return reply.view("student/profile",data);
                     }
                 })
             }

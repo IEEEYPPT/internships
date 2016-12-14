@@ -53,10 +53,11 @@ server.register(require('vision'), (err) => {
         helpersPath: 'views/helpers',
         partialsPath: 'views/partials'
     });
+    
+    require('./routes/web/index.js')(server);
+    require('./routes/api/index.js')(server);
 });
 
-require('./routes/web/index.js')(server);
-require('./routes/api/index.js')(server);
 
 server.start((err) => {
 

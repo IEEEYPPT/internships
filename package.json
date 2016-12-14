@@ -19,7 +19,7 @@
   "dependencies": {
     "bcrypt": "1",
     "handlebars": "4",
-    "hapi": "13",
+    "hapi": "16",
     "hapi-auth-cookie": "6",
     "inert": "4",
     "knex": "0",

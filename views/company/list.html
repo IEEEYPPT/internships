@@ -1,0 +1,35 @@
+{{!< layout/default}}
+{{#if companies}}
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>    
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Field</th>
+                    <th>Interships</th>
+                    <th>Profile</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each companies}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{email}}</td>
+                    <td>{{field}}</td>
+                    <td><a href="#">Interships<!--TODO--></a></td>
+                    <td><a href="/company/{{id}}">{{id}}</a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{else}}
+<div class="row">
+    <div class="col-xs-12">
+        <p>Error fetching data!</p>
+    </div>
+</div>
+{{/if}}

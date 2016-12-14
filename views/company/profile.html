@@ -1,0 +1,23 @@
+{{!< layout/default}}
+{{#if company}}
+<div class="row">
+    <div class="col-md-4 col-xs-12">
+        <img class="img-responsive" src="http://placehold.it/350x350">
+    </div>
+    <div class="col-md-8 col-xs-12">
+        <h2>{{company.name}}</h2>
+        <div class="well">
+            Name: {{company.name}}<br>
+            Email: {{company.email}}<br>
+            City: {{company.city_name}}<br>
+            Field: {{company.field}}
+        </div>
+    </div>
+</div>
+{{else}}
+<div class="row">
+    <div class="col-xs-12">
+        <p>Error fetching data!</p>
+    </div>
+</div>
+{{/if}}
