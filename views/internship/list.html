@@ -1,0 +1,35 @@
+{{!< layout/default}}
+{{#if internships}}
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>    
+                    <th>Title</th>
+                    <th>Company</th>
+                    <th>Publication Date</th>
+                    <th>Expiration Date</th>
+                    <th>Profile</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each internships}}
+                <tr>
+                    <td>{{title}}</td>
+                    <td><a href="/company/{{company_id}}">{{company_name}}</a></td>
+                    <td>{{publication_date}}</td>
+                    <td>{{expiration_date}}</td>
+                    <td><a href="/internship/{{id}}">{{id}}</a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{else}}
+<div class="row">
+    <div class="col-xs-12">
+        <p>Error fetching data!</p>
+    </div>
+</div>
+{{/if}}

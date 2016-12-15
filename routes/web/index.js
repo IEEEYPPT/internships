@@ -143,7 +143,49 @@ module.exports = function(server) {
         }
     });
 
+    server.route({
+        method: 'GET',
+        path: '/internship',
+        config: {
+            handler: function(request, reply){
+                var data = {title: "Internships",errors:[],authenticated: request.auth.isAuthenticated};
+                DatabaseFunctions.getInternships(function(internships){
+                    if(internships.code == 200){
+                        data.internships = internships.message;
+                        return reply.view("internship/list",data);
+                    } else {
+                        data.errors.push({message: "Error fetching internships from database"});
+                        return reply.view("internship/list",data);
+                    }
+                })
+            }
+        }
+    })
     
+    server.route({
+        method: 'GET',
+        path: '/internship/{id}',
+        config: {
+            validate: {
+                params: {
+                    id: Joi.number().integer().required()
+                }
+            },
+            handler: function(request, reply){
+                var data = {title: "Internship",errors:[],authenticated: request.auth.isAuthenticated};
+                DatabaseFunctions.getInternship(request.params.id,function(internship){
+                    if(internship.code == 200){
+                        data.internship = internship.message;
+                        return reply.view("internship/profile",data);
+                    } else {
+                        data.errors.push({message: "Error fetching internship from database"});
+                        return reply.view("internship/profile",data);
+                    }
+                })
+            }
+        }
+    })
+
     server.route({
         method: 'GET',
         path: '/company',
@@ -212,7 +254,7 @@ module.exports = function(server) {
                     if(answer.code == 200){
                         data.student = answer.message;
                         data.student.birthdate = new Date(data.student.birthdate);
-                        data.student.birthdate = data.student.birthdate.toLocaleDateString();
+                        data.student.birthdate = data.student.birthdate.toDateString();
                         DatabaseFunctions.getStudentBranch(data.student.student_branch_id,function(answer){
                             if(answer.code == 200){
                                 data.student.student_branch_name = answer.message.name;

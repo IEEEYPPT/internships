@@ -125,8 +125,7 @@ module.exports = {
     getInternship : function (id, callback) {
         db('internship').where({
             id : id
-        }).select('id','title','description',
-        'publication_date','expiration_date','city_id','company_id').then(function(internship){
+        }).select('id','title','description','publication_date','expiration_date','city_id','company_id').then(function(internship){
             if(Object.keys(internship).length == 1){
                 callback({code:200,message:internship[0]});
             } else {
@@ -138,7 +137,7 @@ module.exports = {
         db.select('id','title','description',
         'publication_date','expiration_date','city_id','company_id').from('internship').then(function (internships) {
             if(Object.keys(internships).length <= 0){
-                callback({code:404,message:"There are no cities available"});
+                callback({code:404,message:"There are no internships available"});
             } else {
                 callback({code:200,message:internships});
             }

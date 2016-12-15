@@ -5,13 +5,16 @@ exports.seed = function(knex, Promise) {
   return Promise.all([
     knex('student').del(),
     knex('student_branch').del(),
+    knex('internship').del(),
+    knex('company').del(),
     knex('city').del(),
     knex('country').del(),
-    knex('company').del(),
     knex.raw("ALTER SEQUENCE student_branch_id_seq RESTART WITH 1"),
     knex.raw("ALTER SEQUENCE city_id_seq RESTART WITH 1"),
     knex.raw("ALTER SEQUENCE country_id_seq RESTART WITH 1"),
-    knex.raw("ALTER SEQUENCE company_id_seq RESTART WITH 1")
+    knex.raw("ALTER SEQUENCE company_id_seq RESTART WITH 1"),
+    knex.raw("ALTER SEQUENCE student_id_seq RESTART WITH 1"),
+    knex.raw("ALTER SEQUENCE internship_id_seq RESTART WITH 1")
   ])
     .then(function () {
       return Promise.all([
@@ -27,11 +30,15 @@ exports.seed = function(knex, Promise) {
             knex('city').insert({name: 'Leiria', country_id: country_id[0]}, 'id').then(function(id){
               return knex('student_branch').insert({name: 'Instituto Politécnico de Leiria',city_id:id[0]});
             }),
-            knex('city').insert({name: 'Porto', country_id: country_id[0]}, 'id').then(function(id){
+            knex('city').insert({name: 'Porto', country_id: country_id[0]}, 'id').then(function(city_id){
                 return Promise.all([
-                  knex('student_branch').insert({name: 'Instituto Superior de Engenharia do Porto',city_id:id[0]}),
-                  knex('student_branch').insert({name: 'Universidade do Porto',city_id:id[0]}),
-                  knex('company').insert({email:"blip@blip.pt",password:"$2a$06$Htp8j/dUn1VRmKSXNf0gH.WtgMkxdnYzc589/6WhyASaT6aOYzNV2 ",name:'BLIP',description:"Created with the purpose of making a difference in the web application world, we thrive to make our contribution count every day.",field:"Web Development",city_id:id[0] })
+                  knex('student_branch').insert({name: 'Instituto Superior de Engenharia do Porto',city_id:city_id[0]}),
+                  knex('student_branch').insert({name: 'Universidade do Porto',city_id:city_id[0]}),
+                  knex('company').insert({email:"blip@blip.pt",password:"$2a$06$Htp8j/dUn1VRmKSXNf0gH.WtgMkxdnYzc589/6WhyASaT6aOYzNV2 ",name:'BLIP',description:"Created with the purpose of making a difference in the web application world, we thrive to make our contribution count every day.",field:"Web Development",city_id:city_id[0] }, 'id').then(function(company_id){
+                    return Promise.all([
+                      knex('internship').insert({title:'Internship Program',description:'<p>We will provide to the Interns selected:<br /> - 6 months (Full-Time) of a challenge and fun Internship in Software Development<br /> - Real possibility of becoming a Software Engineer &#064; Blip<br /> - Paid Internship<br /> - Beginning of November 2014</p><p> The intern must have:<br /> - Information Technology academic background<br /> - Side projects developed</p><p> The intern must be:<br /> - Curious and action oriented<br /> - Humble and friendly <br /> - Willing to learn and share knowledge <br /> - Team player and committed<br /> - Flexible and autonomous<br /> - Passionate towards SW Development and complex challenges</p>',publication_date:'31/10/2016',expiration_date:'01/02/2017',city_id:city_id[0],company_id:company_id[0]})
+                      ]);
+                  })
                 ]);
             }),
             knex('city').insert({name: 'Lisboa', country_id: country_id[0]}, 'id').then(function(id){
