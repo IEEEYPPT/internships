@@ -9,17 +9,15 @@
                     <th>Email</th>
                     <th>Field</th>
                     <th>Interships</th>
-                    <th>Profile</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each companies}}
                 <tr>
-                    <td>{{name}}</td>
+                    <td><a href="/company/{{id}}">{{name}}</a></td>
                     <td>{{email}}</td>
                     <td>{{field}}</td>
-                    <td><a href="#">Interships<!--TODO--></a></td>
-                    <td><a href="/company/{{id}}">{{id}}</a></td>
+                    <td><a href="/company/{{id}}/internship">List</a></td>
                 </tr>
                 {{/each}}
             </tbody>

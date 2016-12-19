@@ -253,8 +253,6 @@ module.exports = function(server) {
                 DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
                     if(answer.code == 200){
                         data.student = answer.message;
-                        data.student.birthdate = new Date(data.student.birthdate);
-                        data.student.birthdate = data.student.birthdate.toDateString();
                         DatabaseFunctions.getStudentBranch(data.student.student_branch_id,function(answer){
                             if(answer.code == 200){
                                 data.student.student_branch_name = answer.message.name;

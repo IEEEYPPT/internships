@@ -9,7 +9,8 @@ const conf =  {
         databaseUser : 'postgres',
         databasePassword : 'postgres',
         database : 'internships',
-        databaseSSL : false
+        databaseSSL : false,
+        timezone: 'utc'
     },
     production : {
         serverPort : process.env.PORT,
@@ -19,7 +20,8 @@ const conf =  {
         databaseUser : 'amoevggxdixlmo',
         databasePassword : '5u8fuNKnM-HEYF9EwxPn29k-LK',
         database : 'dae6v3s4ebol8p',
-        databaseSSL : true
+        databaseSSL : true,
+        timezone: 'utc'
     }
 }
 
