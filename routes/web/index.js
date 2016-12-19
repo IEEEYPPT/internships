@@ -243,6 +243,35 @@ module.exports = function(server) {
 
     server.route({
         method: 'GET',
+        path: '/company/{id}/internship',
+        config: {
+            validate: {
+                params: {
+                    id: Joi.number().integer().required()
+                }
+            },
+            handler: function(request,reply){
+                var data = {
+                    authenticated: request.auth.isAuthenticated,
+                    errors: []
+                };
+                DatabaseFunctions.getInternshipsFromCompany(encodeURIComponent(request.params.id),function(answer){
+                    if(answer.code == 200){
+                        data.title = answer.message[0].company_name + " internships";
+                        data.internships = answer.message;
+                        return reply.view('company/internships',data);
+                    } else {
+                        data.title = "Internships";                        
+                        data.errors = [{message:"Couldn't fetch company internships data"}];
+                        return reply.view('company/internships',data);
+                    }
+                })
+            }
+        }
+    })
+
+    server.route({
+        method: 'GET',
         path: '/profile',
         config: {
             handler: function (request,reply){

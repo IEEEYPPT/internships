@@ -164,6 +164,20 @@ module.exports = {
                 callback({code:200,message:internships.rows});
             }
         });
+    },
+    getInternshipsFromCompany : function(id,callback){
+        db.raw("SELECT internship.*,city.name AS city_name,company.name AS company_name " +
+                "FROM internship "+
+                "INNER JOIN city "+
+                    "ON city.id = internship.city_id "+
+                "INNER JOIN company "+
+                    "ON company.id = internship.company_id "+
+                "WHERE internship.company_id = " + id).then(function(internships){
+            if(Object.keys(internships).length <= 0){
+                callback({code:404,message:"There are no internships available"});
+            } else {
+                callback({code:200,message:internships.rows});
+            }
+        });
     }
-
 };
