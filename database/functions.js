@@ -3,6 +3,31 @@
 const db = require('./index.js');
 const UtilsFunctions = require('./../utils/functions.js');
 
+function getCity(id,callback){
+    db('city').where({
+        id : id
+    }).select('id','name','country_id').then(function(city){
+        if(Object.keys(city).length == 1){
+            callback({code:200,message:city[0]});
+        } else {
+            callback({code:404,message:"Company not found."});
+        }
+    });
+}
+
+function getCompany(id, callback) {
+    db('company').where({
+        id : id
+    }).select('id','name','email','description','field',
+    'city_id').then(function(company){
+        if(Object.keys(company).length == 1){
+            callback({code:200,message:company[0]});
+        } else {
+            callback({code:404,message:"Company not found."});
+        }
+    });
+}
+
 module.exports = {
     getStudent : function (id, callback) {
         db('student').where({
@@ -60,18 +85,7 @@ module.exports = {
             }
         });
     },
-    getCompany : function (id, callback) {
-        db('company').where({
-            id : id
-        }).select('id','name','email','description','field',
-        'city_id').then(function(company){
-            if(Object.keys(company).length == 1){
-                callback({code:200,message:company[0]});
-            } else {
-                callback({code:404,message:"Company not found."});
-            }
-        });
-    },
+    getCompany : getCompany,
     getCompanies : function(callback){
         db.select('id','name','description','email','field',
         'city_id').from('company').then(function(companies){
@@ -102,17 +116,7 @@ module.exports = {
             }
         })
     },
-    getCity : function (id, callback) {
-        db('city').where({
-            id : id
-        }).select('id','name','country_id').then(function(city){
-            if(Object.keys(city).length == 1){
-                callback({code:200,message:city[0]});
-            } else {
-                callback({code:404,message:"Company not found."});
-            }
-        });
-    },
+    getCity : getCity,
     getCities : function (callback) {
         db.select('id','name','country_id').from('city').then(function(cities){
             if(Object.keys(cities).length <= 0){
@@ -127,21 +131,39 @@ module.exports = {
             id : id
         }).select('id','title','description','publication_date','expiration_date','city_id','company_id').then(function(internship){
             if(Object.keys(internship).length == 1){
-                callback({code:200,message:internship[0]});
+                getCity(internship[0].city_id,function(result){
+                    if(result.code == 200){
+                        internship[0].city_name = result.message.name;
+                        getCompany(internship[0].company_id,function(result){
+                            if(result.code == 200){
+                                internship[0].company_name = result.message.name;
+                                callback({code:200,message:internship[0]});
+                            } else {
+                                callback({code:404,message:"Internship not found."});
+                            }
+                        })
+                    } else {
+                        callback({code:404,message:"Internship not found."});
+                    }
+                });
             } else {
                 callback({code:404,message:"Internship not found."});
             }
         });
     },
     getInternships : function (callback) {
-        db.select('id','title','description',
-        'publication_date','expiration_date','city_id','company_id').from('internship').then(function (internships) {
+        db.raw("SELECT internship.*,city.name AS city_name,company.name AS company_name " +
+                "FROM internship "+
+                "INNER JOIN city "+
+                    "ON city.id = internship.city_id "+
+                "INNER JOIN company "+
+                    "ON company.id = internship.company_id").then(function(internships){
             if(Object.keys(internships).length <= 0){
                 callback({code:404,message:"There are no internships available"});
             } else {
-                callback({code:200,message:internships});
+                callback({code:200,message:internships.rows});
             }
-        })
+        });
     }
 
 };
