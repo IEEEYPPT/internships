@@ -7,7 +7,7 @@ function getCity(id,callback){
     db('city').where({
         id : id
     }).select('id','name','country_id').then(function(city){
-        if(Object.keys(city).length == 1){
+        if(Object.keys(city).length === 1){
             callback({code:200,message:city[0]});
         } else {
             callback({code:404,message:"Company not found."});
@@ -20,7 +20,7 @@ function getCompany(id, callback) {
         id : id
     }).select('id','name','email','description','field',
     'city_id').then(function(company){
-        if(Object.keys(company).length == 1){
+        if(Object.keys(company).length === 1){
             callback({code:200,message:company[0]});
         } else {
             callback({code:404,message:"Company not found."});
@@ -36,7 +36,7 @@ module.exports = {
         'birthdate','graduation_year','linkedin',
         'collabratec','bio','city_id',
         'student_branch_id','area').then(function(student){
-            if(Object.keys(student).length == 1){
+            if(Object.keys(student).length === 1){
                 callback({code:200,message:student[0]});
             } else {
                 callback({code:404,message:"Student not found."});
@@ -57,7 +57,7 @@ module.exports = {
     },
     createStudent: function (student,callback){
         db.insert(student).into('student').then(function(result){
-             if(result.rowCount == 1){
+             if(result.rowCount === 1){
                  callback({code:201,message: "Student created with success"});
              } else {
                  callback({code:500,message: "Student could not be created"});
@@ -71,7 +71,7 @@ module.exports = {
         db.select('id','password').from('student').where({
             email : email
         }).then(function(student){
-            if(Object.keys(student).length == 1){
+            if(Object.keys(student).length === 1){
                 UtilsFunctions.comparePassword(password,student[0].password,function(val,isPasswordMatch){
                     if(isPasswordMatch){
                         return callback({code: "200", message: "Login successful",student: student[0].id}); //TODO check this code value
@@ -100,7 +100,7 @@ module.exports = {
         db('student_branch').where({
             id : id
         }).select('id','name','city_id').then(function(studentBranch){
-            if(Object.keys(studentBranch).length == 1){
+            if(Object.keys(studentBranch).length === 1){
                 callback({code:200,message:studentBranch[0]});
             } else {
                 callback({code:404,message:"Student Branch not found."});
@@ -130,12 +130,12 @@ module.exports = {
         db('internship').where({
             id : id
         }).select('id','title','description','publication_date','expiration_date','city_id','company_id').then(function(internship){
-            if(Object.keys(internship).length == 1){
+            if(Object.keys(internship).length === 1){
                 getCity(internship[0].city_id,function(result){
-                    if(result.code == 200){
+                    if(result.code === 200){
                         internship[0].city_name = result.message.name;
                         getCompany(internship[0].company_id,function(result){
-                            if(result.code == 200){
+                            if(result.code === 200){
                                 internship[0].company_name = result.message.name;
                                 callback({code:200,message:internship[0]});
                             } else {

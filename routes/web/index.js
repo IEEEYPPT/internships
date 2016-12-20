@@ -12,7 +12,7 @@ module.exports = function(server) {
         path: '/',
         config: {
             handler: function (request, reply) {
-                var data = {
+                let data = {
                     title: "What is the IEEE Young Professionals Internship Program?",
                     authenticated: request.auth.isAuthenticated
                 }
@@ -32,7 +32,7 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                var data = {title:"Sign in",errors:[]};
+                let data = {title:"Sign in",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
@@ -85,11 +85,10 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                var data = {title:"Register",errors:[]};
+                let data = {title:"Register",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
-                var errors = [];
                 if(request.method === 'post'){
                     if(request.payload.password === request.payload.check_password){
                         UtilsFunctions.cryptPassword(request.payload.password,function(err,hash){
@@ -148,7 +147,7 @@ module.exports = function(server) {
         path: '/internship',
         config: {
             handler: function(request, reply){
-                var data = {title: "Internships",errors:[],authenticated: request.auth.isAuthenticated};
+                let data = {title: "Internships",errors:[],authenticated: request.auth.isAuthenticated};
                 DatabaseFunctions.getInternships(function(internships){
                     if(internships.code == 200){
                         data.internships = internships.message;
@@ -172,7 +171,7 @@ module.exports = function(server) {
                 }
             },
             handler: function(request, reply){
-                var data = {title: "Internship",errors:[],authenticated: request.auth.isAuthenticated};
+                let data = {title: "Internship",errors:[],authenticated: request.auth.isAuthenticated};
                 DatabaseFunctions.getInternship(request.params.id,function(internship){
                     if(internship.code == 200){
                         data.internship = internship.message;
@@ -191,7 +190,7 @@ module.exports = function(server) {
         path: '/company',
         config: {
             handler: function(request, reply){
-                var data = {title: "Companies",errors:[],authenticated: request.auth.isAuthenticated};
+                let data = {title: "Companies",errors:[],authenticated: request.auth.isAuthenticated};
                 DatabaseFunctions.getCompanies(function(companies){
                     if(companies.code == 200){
                         data.companies = companies.message;
@@ -216,7 +215,7 @@ module.exports = function(server) {
                 }
             },
             handler: function(request,reply){
-                var data = {
+                let data = {
                     authenticated: request.auth.isAuthenticated,
                     errors: []
                 };
@@ -251,7 +250,7 @@ module.exports = function(server) {
                 }
             },
             handler: function(request,reply){
-                var data = {
+                let data = {
                     authenticated: request.auth.isAuthenticated,
                     errors: []
                 };
@@ -275,7 +274,7 @@ module.exports = function(server) {
         path: '/profile',
         config: {
             handler: function (request,reply){
-                var data = {
+                let data = {
                     authenticated: request.auth.isAuthenticated,
                     errors: []
                 };
