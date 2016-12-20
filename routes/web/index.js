@@ -91,7 +91,7 @@ module.exports = function(server) {
                 }
                 var errors = [];
                 if(request.method === 'post'){
-                    if(request.payload.password){
+                    if(request.payload.password === request.payload.check_password){
                         UtilsFunctions.cryptPassword(request.payload.password,function(err,hash){
                             if(!err){
                                 request.payload.password = hash;
@@ -121,7 +121,7 @@ module.exports = function(server) {
                             }
                         })
                     } else {
-                        data.errors.push({message: "Missing, wrong or already used values"});
+                        data.errors.push({message: "Passwords aren't equal"});
                         DatabaseFunctions.getCities(function(cities){
                             DatabaseFunctions.getStudentBranchs(function(sbs){    
                                 data.sbs = sbs.message;
@@ -306,7 +306,21 @@ module.exports = function(server) {
                 })
             }
         }
-    })
+    });
+
+    server.route({
+        method: '*',
+        path: '/{p*}',
+        config: {
+            handler: function(request,reply){
+                let data = {
+                    title: 'Error',
+                    errors: [{message: "Unavailable resource: " + request.path + " isn't available"}]
+                }
+                reply.view('error',data).code(404);
+            }
+        }
+    });
 
     server.register(require('inert'), (err) => {
 
