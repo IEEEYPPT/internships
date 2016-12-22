@@ -5,12 +5,18 @@
         <img class="img-responsive" src="http://placehold.it/350x350">
     </div>
     <div class="col-md-8 col-xs-12">
-        <h2>{{company.name}}</h2>
-        <div class="well">
-            Name: {{company.name}}<br>
-            Email: {{company.email}}<br>
-            City: {{company.city_name}}<br>
-            Field: {{company.field}}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{company.name}}</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Name: {{company.name}}<br>
+                    Email: {{company.email}}<br>
+                    City: {{company.city_name}}<br>
+                    Field: {{company.field}}
+                </p>
+            </div>
         </div>
     </div>
 </div>

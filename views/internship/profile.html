@@ -5,20 +5,32 @@
         <img class="img-responsive" src="http://placehold.it/350x350">
     </div>
     <div class="col-md-8 col-xs-12">
-        <h2>{{internship.title}}</h2>
-        <div class="well">
-            Company: {{internship.company_name}}<br>
-            Publication Date: {{internship.publication_date}}<br>
-            Expiration Date: {{internship.expiration_date}}<br>
-            City: {{internship.city_name}}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{internship.title}}</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Company: {{internship.company_name}}<br>
+                    Publication Date: {{internship.publication_date}}<br>
+                    Expiration Date: {{internship.expiration_date}}<br>
+                    City: {{internship.city_name}}
+                </p>
+            </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-        <h3>Description</h3>
-        <div class="well">
-            {{{internship.description}}}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    {{{internship.description}}}
+                </p>
+            </div>
         </div>
     </div>
 </div>
