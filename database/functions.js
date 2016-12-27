@@ -74,15 +74,27 @@ module.exports = {
             if(Object.keys(student).length === 1){
                 UtilsFunctions.comparePassword(password,student[0].password,function(val,isPasswordMatch){
                     if(isPasswordMatch){
-                        return callback({code: "200", message: "Login successful",student: student[0].id}); //TODO check this code value
+                        return callback({code: 200, message: "Login successful",student: student[0].id}); //TODO check this code value
                     }
                     else{
-                        return callback({code: "500", message: "Invalid login"}); //TODO check this code value
+                        return callback({code: 500, message: "Invalid login"}); //TODO check this code value
                     }
                 })
             } else {
-                return callback({code: "404", message: "Email or password invalid"});
+                return callback({code: 404, message: "Email or password invalid"});
             }
+        });
+    },
+    createCompany: function (company,callback){
+        db.insert(company).into('company').then(function(result){
+             if(result.rowCount === 1){
+                 callback({code:201,message: "Company created with success"});
+             } else {
+                 callback({code:500,message: "Company could not be created : " + result});
+             }
+        },
+        function(error){
+            callback({code:500,message: "Company could not be created : " + error}); //TODO Remove this error message
         });
     },
     getCompany : getCompany,
@@ -95,6 +107,24 @@ module.exports = {
                 callback({code:200,message:companies});
             }
         })
+    },
+    checkCompanyLogin: function (email,password,callback){
+        db.select('id','password').from('company').where({
+            email : email
+        }).then(function(company){
+            if(Object.keys(company).length === 1){
+                UtilsFunctions.comparePassword(password,company[0].password,function(val,isPasswordMatch){
+                    if(isPasswordMatch){
+                        return callback({code: 200, message: "Login successful",company: company[0].id}); //TODO check this code value
+                    }
+                    else{
+                        return callback({code: 500, message: "Invalid login"}); //TODO check this code value
+                    }
+                })
+            } else {
+                return callback({code: 404, message: "Email or password invalid"});
+            }
+        });
     },
     getStudentBranch : function (id, callback) {
         db('student_branch').where({
@@ -173,7 +203,7 @@ module.exports = {
                 "INNER JOIN company "+
                     "ON company.id = internship.company_id "+
                 "WHERE internship.company_id = " + id).then(function(internships){
-            if(Object.keys(internships).length <= 0){
+            if(Object.keys(internships).length <= 0 || internships.rows.length <= 0){
                 callback({code:404,message:"There are no internships available"});
             } else {
                 callback({code:200,message:internships.rows});

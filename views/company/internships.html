@@ -2,6 +2,9 @@
 {{#if internships}}
 <div class="row">
     <div class="col-xs-12">
+        {{#if internships.empty}}
+        <p>This company hasn't internships available!</p>
+        {{else}}
         <table class="table table-striped">
             <thead>
                 <tr>    
@@ -22,6 +25,7 @@
                 {{/each}}
             </tbody>
         </table>
+        {{/if}}
     </div>
 </div>
 {{else}}

@@ -1,0 +1,63 @@
+{{!< layout/default}}
+<div class="row">
+    <div id="register-text" class="col-xs-12">
+        <p>This registration form is directed to companies. If you're a student, you should go <a href="/register/student">here</a>.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <form class='form-horizontal' id='form-register-company' method="post" action="/register/company">
+            <div class='form-group'>
+                <label for='input-email-1' class='col-sm-3 control-label'>Email address</label>
+                <div class='col-sm-9'>
+                    <input type='email' class='form-control' id='input-email-1' placeholder='Email' name="email" required>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-password-1' class='col-sm-3 control-label'>Password</label>
+                <div class='col-sm-9'>
+                    <input type='password' class='form-control' id='input-password-1' placeholder='Password' name="password" required>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-password-2' class='col-sm-3 control-label'>Retype Password</label>
+                <div class='col-sm-9'>
+                    <input type='password' class='form-control' id='input-password-2' placeholder='Password' name="check_password" required>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-first-name' class='col-sm-3 control-label'>Company Name</label>
+                <div class='col-sm-9'>
+                    <input type='text' class='form-control' id='input-first-name' placeholder='Company Name' name="name" required>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-ieee-number' class='col-sm-3 control-label'>Description</label>
+                <div class='col-sm-9'>
+                    <input type='text' class='form-control' id='input-description' placeholder='Description' name="description" required>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-city' class='col-sm-3 control-label'>City</label>
+                <div class='col-sm-9'>
+                    <select class='form-control' id='input-city' placeholder='City' name="city_id">
+                        {{#each cities}}
+                        <option value='{{id}}'>{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-field' class='col-sm-3 control-label'>Company Field</label>
+                <div class='col-sm-9'>
+                    <input type="text" class='form-control' id='input-field' placeholder='Company Field' name="field">
+                </div>
+            </div>
+            <div class='form-group'>
+                <div class='col-sm-offset-3 col-sm-9'>
+                    <button type='submit' class='btn btn-default'>OK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
