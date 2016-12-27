@@ -79,13 +79,29 @@ module.exports = function(server) {
     });
 
     server.route({
-        method: ['GET','POST'],
+        method: 'GET',
         path: '/register',
+        config: {
+            auth: { mode: 'try' },
+            plugins: { 'hapi-auth-cookie': { redirectTo: false }},
+            handler: function(request,reply){
+                let data = {title:"Register",errors:[]};
+                if (request.auth.isAuthenticated) {
+                    return reply.redirect('/');
+                }
+                return reply.view("register",data);
+            }
+        }
+    });
+
+    server.route({
+        method: ['GET','POST'],
+        path: '/register/student',
         config: {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                let data = {title:"Register",errors:[]};
+                let data = {title:"Student Register",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
@@ -103,7 +119,7 @@ module.exports = function(server) {
                                             DatabaseFunctions.getStudentBranchs(function(sbs){
                                                 data.sbs = sbs.message;
                                                 data.cities = cities.message;
-                                                return reply.view("register",data);
+                                                return reply.view("student/register",data);
                                             })
                                         });                       
                                     }
@@ -114,7 +130,7 @@ module.exports = function(server) {
                                     DatabaseFunctions.getStudentBranchs(function(sbs){    
                                         data.sbs = sbs.message;
                                         data.cities = cities.message;
-                                        return reply.view("register",data);
+                                        return reply.view("student/register",data);
                                     })
                                 });
                             }
@@ -125,7 +141,7 @@ module.exports = function(server) {
                             DatabaseFunctions.getStudentBranchs(function(sbs){    
                                 data.sbs = sbs.message;
                                 data.cities = cities.message;
-                                return reply.view("register",data);
+                                return reply.view("student/register",data);
                             })
                         });     
                     }   
@@ -134,7 +150,7 @@ module.exports = function(server) {
                         DatabaseFunctions.getStudentBranchs(function(sbs){    
                             data.sbs = sbs.message;
                             data.cities = cities.message;
-                            return reply.view("register",data);
+                            return reply.view("student/register",data);
                         })
                     });
                 }
