@@ -41,13 +41,13 @@ module.exports = function(server) {
                         DatabaseFunctions.checkStudentLogin(request.payload.email,request.payload.password,function(answer) {
                             if(answer.code == 200){
                                 const uuid = uuidV4();
-                                request.server.app.cache.set(uuid, {type:'student', id:answer.student}, 0, (err) => {
+                                request.server.app.cache.set(uuid, {scope:'student', id:answer.student}, 0, (err) => {
 
                                     if (err) {
                                         reply(err);
                                     }
 
-                                    request.cookieAuth.set({ uuid: uuid});
+                                    request.cookieAuth.set({ uuid: uuid,scope:'student'});
                                     return reply.redirect('/');
                                 });
                             } else {
