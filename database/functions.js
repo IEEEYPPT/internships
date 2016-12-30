@@ -85,6 +85,24 @@ module.exports = {
             }
         });
     },
+    checkCompanyLogin: function (email,password,callback){
+        db.select('id','password').from('company').where({
+            email : email
+        }).then(function(company){
+            if(Object.keys(company).length === 1){
+                UtilsFunctions.comparePassword(password,company[0].password,function(val,isPasswordMatch){
+                    if(isPasswordMatch){
+                        return callback({code: 200, message: "Login successful",company: company[0].id}); //TODO check this code value
+                    }
+                    else{
+                        return callback({code: 500, message: "Invalid login"}); //TODO check this code value
+                    }
+                })
+            } else {
+                return callback({code: 404, message: "Email or password invalid"});
+            }
+        });
+    },
     createCompany: function (company,callback){
         db.insert(company).into('company').then(function(result){
              if(result.rowCount === 1){

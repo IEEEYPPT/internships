@@ -51,8 +51,23 @@ module.exports = function(server) {
                                     return reply.redirect('/');
                                 });
                             } else {
-                                data.errors.push({message:"Wrong email/password"});
-                                return reply.view("login",data);    
+                                DatabaseFunctions.checkCompanyLogin(request.payload.email,request.payload.password,function(answer){
+                                    if(answer.code === 200){
+                                        const uuid = uuidV4();
+                                        request.server.app.cache.set(uuid, {scope:'company', id:answer.company}, 0, (err) => {
+
+                                            if (err) {
+                                                reply(err);
+                                            }
+
+                                            request.cookieAuth.set({ uuid: uuid,scope:'company'});
+                                            return reply.redirect('/');
+                                        });
+                                    } else {
+                                        data.errors.push({message:"Wrong email/password"});
+                                        return reply.view("login",data);    
+                                    }
+                                });
                             }
                         });
                     } else {
@@ -353,31 +368,51 @@ module.exports = function(server) {
                     authenticated: request.auth.isAuthenticated,
                     errors: []
                 };
-                DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
-                    if(answer.code === 200){
-                        data.student = answer.message;
-                        DatabaseFunctions.getStudentBranch(data.student.student_branch_id,function(answer){
-                            if(answer.code === 200){
-                                data.student.student_branch_name = answer.message.name;
-                                DatabaseFunctions.getCity(data.student.city_id,function(answer){
-                                    if(answer.code === 200){
-                                        data.student.city_name = answer.message.name;
-                                        return reply.view("student/profile",data);
-                                    } else {
-                                        data.errors = [{message:"Couldn't fetch student data"}];
-                                        return reply.view("student/profile",data);
-                                    }
-                                });
-                            } else {
-                                data.errors.push({message:"Couldn't fetch student data"});
-                                return reply.view("student/profile",data);
-                            }
-                        });
-                    } else {
-                        data.errors.push({message:"Couldn't fetch student data"});
-                        return reply.view("student/profile",data);
-                    }
-                })
+                if(request.auth.credentials.scope === 'student'){
+                    DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
+                        if(answer.code === 200){
+                            data.student = answer.message;
+                            DatabaseFunctions.getStudentBranch(data.student.student_branch_id,function(answer){
+                                if(answer.code === 200){
+                                    data.student.student_branch_name = answer.message.name;
+                                    DatabaseFunctions.getCity(data.student.city_id,function(answer){
+                                        if(answer.code === 200){
+                                            data.student.city_name = answer.message.name;
+                                            return reply.view("student/profile",data);
+                                        } else {
+                                            data.errors = [{message:"Couldn't fetch student data"}];
+                                            return reply.view("student/profile",data);
+                                        }
+                                    });
+                                } else {
+                                    data.errors.push({message:"Couldn't fetch student data"});
+                                    return reply.view("student/profile",data);
+                                }
+                            });
+                        } else {
+                            data.errors.push({message:"Couldn't fetch student data"});
+                            return reply.view("student/profile",data);
+                        }
+                    });
+                } else if (request.auth.credentials.scope === 'company'){
+                    DatabaseFunctions.getCompany(encodeURIComponent(request.auth.credentials.id),function(answer){
+                        if(answer.code === 200){
+                            data.company = answer.message;
+                            DatabaseFunctions.getCity(data.company.city_id, function(answer){
+                                if(answer.code === 200){
+                                    data.company.city_name = answer.message.name;
+                                    return reply.view('company/profile',data);
+                                } else {
+                                    data.errors = [{message:"Couldn't fetch company data"}];
+                                    return reply.view('company/profile',data);
+                                }
+                            })
+                        } else {
+                            data.errors = [{message:"Couldn't fetch company data"}];
+                            return reply.view('company/profile',data);
+                        }
+                    })
+                }
             }
         }
     });
