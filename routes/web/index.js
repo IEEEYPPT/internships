@@ -421,10 +421,13 @@ module.exports = function(server) {
         method: '*',
         path: '/{p*}',
         config: {
-            auth: false,
+            auth: {
+                mode: 'try'
+            },
             handler: function(request,reply){
                 let data = {
                     title: 'Error',
+                    authenticated: request.auth.isAuthenticated,
                     errors: [{message: "Unavailable resource: " + request.path + " isn't available"}]
                 }
                 reply.view('error',data).code(404);
