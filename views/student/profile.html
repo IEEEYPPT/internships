@@ -1,9 +1,24 @@
 {{!< layout/default}}
 {{#if student}}
-<form>
+<script> 
+function enableInputs() {
+    $('input').removeAttr('disabled');
+    $('select').removeAttr('disabled');
+    $('textarea').removeAttr('disabled');
+    $('#edit-profile').hide();
+    $('#send-changes').removeClass('hidden');
+}   
+</script>
+<form action="/profile" method="post">
     <div class="row">
         <div class="col-md-4 col-xs-12">
-            <img class="img-responsive" src="http://placehold.it/350x350">
+            <div class="row centered center-block">
+                    <img class="img-responsive" src="http://placehold.it/350x350">
+                    <hr>
+                    <button id="edit-profile" class="btn btn-success" onclick="enableInputs();return false;">Edit profile</button>
+                    <button id="send-changes" class="btn btn-success hidden" type="submit" hidden>Submit changes</button>
+                    <a href="#" class="btn btn-danger">Change password</a>
+            </div>
         </div>
         <div class="col-md-8 col-xs-12">
             <div class="panel panel-primary">
@@ -13,17 +28,33 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label for='ieee_code' class='control-label'>IEEE Number</label>
-                        <input id="ieee_code" class="form-control" value="{{student.ieee_code}}">
+                        <input id="ieee_code" name="ieee_code" class="form-control" type="number" value="{{student.ieee_code}}" disabled>
                         <label for="birthdate" class="control-label">Birthdate</label>
-                        <input id="birthdate" class="form-control" value="{{simpleDate student.birthdate}}">
+                        <input id="birthdate" name="birthdate" class="form-control" type="date" value="{{simpleDate student.birthdate}}" required disabled>
                         <label for='city' class='control-label'>City</label>
-                        <input id="city" class="form-control" value="{{student.city_name}}">
+                        <select id="city" name="city_id" class="form-control" required disabled>
+                        {{#each student.cities}}
+                            {{#if (isEqual ../student.city_id id)}}
+                            <option value={{id}} selected>{{name}}</option>
+                            {{else}}
+                            <option value={{id}}>{{name}}</option>
+                            {{/if}}
+                        {{/each}}
+                        </select>
                         <label for="student_branch" class="control-label">Student Branch</label>
-                        <input id="student_branch" class="form-control" value="{{student.student_branch_name}}">
+                        <select id="student_branch" name="student_branch_id" class="form-control" required disabled>
+                        {{#each student.sbs}}
+                            {{#if (isEqual ../student.student_branch_id id)}}
+                            <option value={{id}} selected>{{name}}</option>
+                            {{else}}
+                            <option value={{id}}>{{name}}</option>
+                            {{/if}}
+                        {{/each}}
+                        </select>
                         <label for='area' class='control-label'>Area</label>
-                        <input id="area" class="form-control" value="{{student.area}}">
+                        <input id="area" name="area" class="form-control" value="{{student.area}}" required disabled>
                         <label for="graduation_year" class="control-label">Graduation Year</label>
-                        <input id="graduation_year" class="form-control" value="{{student.graduation_year}}">
+                        <input id="graduation_year" name="graduation_year" class="form-control" type="number" value="{{student.graduation_year}}" required disabled>
                     </div>
                 </div>
             </div>
@@ -37,7 +68,7 @@
                 </div>
                 <div class="panel-body">
                     <p>
-                        <textarea id="bio" class="form-control" value={{student.graduation_year}}>{{student.bio}}</textarea>
+                        <textarea id="bio" name="bio" class="form-control" disabled>{{student.bio}}</textarea>
                     </p>
                 </div>
             </div>
@@ -50,34 +81,12 @@
                 <div class="panel-body">
                     <p>
                         <label for="linkedin" class="control-label">Linkedin</label>
-                        <input id="linkedin" class="form-control" value={{student.linkedin}}>
+                        <input id="linkedin" name="linkedin" class="form-control" type="url" value={{student.linkedin}} disabled>
                         <label for="collabratec" class="control-label">Linkedin</label>
-                        <input id="collabratec" class="form-control" value={{student.collabratec}}>
+                        <input id="collabratec" name="collabratec" class="form-control" type="url" value={{student.collabratec}} disabled>
                     </p>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">New Password</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="old_password" class="control-label">Old Password</label>
-                        <input id="old_password" class="form-control">
-                        <label for="new_password" class="control-label">New Password</label>
-                        <input id="new_password" class="form-control">
-                        <label for="repeat_new_password" class="control-label">Repeat New Password</label>
-                        <input id="repeat_new_password" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-md-12">
-            <input class="btn btn-success" type="submit" value="Edit">
         </div>
     </div>
 </form>

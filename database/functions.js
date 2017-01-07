@@ -67,6 +67,19 @@ module.exports = {
             callback({code:500,message: "Student could not be created : " + error}); //TODO Remove this error message
         });
     },
+    updateStudent : function (id, payload, callback) {
+        db('student').where({
+            id : id
+        }).update(
+            payload
+        ).then(function(student){
+            if(Object.keys(student).length === 1){
+                callback({code:200,message: "Your profile was updated with success"});
+            } else {
+                callback({code:500,message: "Your profile couldn't be updated"});
+            }
+        });
+    },
     checkStudentLogin: function (email,password,callback){
         db.select('id','password').from('student').where({
             email : email

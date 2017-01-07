@@ -360,7 +360,7 @@ module.exports = function(server) {
     })
 
     server.route({
-        method: 'GET',
+        method: ['GET','POST'],
         path: '/profile',
         config: {
             handler: function (request,reply){
@@ -368,50 +368,65 @@ module.exports = function(server) {
                     authenticated: request.auth.isAuthenticated,
                     errors: []
                 };
-                if(request.auth.credentials.scope === 'student'){
-                    DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
-                        if(answer.code === 200){
-                            data.student = answer.message;
-                            DatabaseFunctions.getStudentBranch(data.student.student_branch_id,function(answer){
-                                if(answer.code === 200){
-                                    data.student.student_branch_name = answer.message.name;
-                                    DatabaseFunctions.getCity(data.student.city_id,function(answer){
-                                        if(answer.code === 200){
-                                            data.student.city_name = answer.message.name;
-                                            return reply.view("student/profile",data);
-                                        } else {
-                                            data.errors = [{message:"Couldn't fetch student data"}];
-                                            return reply.view("student/profile",data);
-                                        }
-                                    });
-                                } else {
-                                    data.errors.push({message:"Couldn't fetch student data"});
-                                    return reply.view("student/profile",data);
-                                }
-                            });
-                        } else {
-                            data.errors.push({message:"Couldn't fetch student data"});
-                            return reply.view("student/profile",data);
-                        }
-                    });
-                } else if (request.auth.credentials.scope === 'company'){
-                    DatabaseFunctions.getCompany(encodeURIComponent(request.auth.credentials.id),function(answer){
-                        if(answer.code === 200){
-                            data.company = answer.message;
-                            DatabaseFunctions.getCity(data.company.city_id, function(answer){
-                                if(answer.code === 200){
-                                    data.company.city_name = answer.message.name;
-                                    return reply.view('company/profile',data);
-                                } else {
-                                    data.errors = [{message:"Couldn't fetch company data"}];
-                                    return reply.view('company/profile',data);
-                                }
-                            })
-                        } else {
-                            data.errors = [{message:"Couldn't fetch company data"}];
-                            return reply.view('company/profile',data);
-                        }
-                    })
+                if(request.method === "get"){
+                    if(request.auth.credentials.scope === 'student'){
+                        DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
+                            if(answer.code === 200){
+                                data.student = answer.message;
+                                DatabaseFunctions.getCities(function(answer){
+                                    if(answer.code === 200){
+                                        data.student.cities = answer.message;
+                                        DatabaseFunctions.getStudentBranchs(function(answer){
+                                            if(answer.code === 200){
+                                                data.student.sbs = answer.message;
+                                                return reply.view("student/profile",data);
+                                            } else {
+                                                data.errors = [{message:"Couldn't fetch student data"}];
+                                                return reply.view("student/profile",data);
+                                            }
+                                        });
+                                    } else {
+                                        data.errors = [{message:"Couldn't fetch student data"}];
+                                        return reply.view("student/profile",data);
+                                    }
+                                });
+                            } else {
+                                data.errors.push({message:"Couldn't fetch student data"});
+                                return reply.view("student/profile",data);
+                            }
+                        });
+                    } else if (request.auth.credentials.scope === 'company'){
+                        DatabaseFunctions.getCompany(encodeURIComponent(request.auth.credentials.id),function(answer){
+                            if(answer.code === 200){
+                                data.company = answer.message;
+                                DatabaseFunctions.getCity(data.company.city_id, function(answer){
+                                    if(answer.code === 200){
+                                        data.company.city_name = answer.message.name;
+                                        return reply.view('company/profile',data);
+                                    } else {
+                                        data.errors = [{message:"Couldn't fetch company data"}];
+                                        return reply.view('company/profile',data);
+                                    }
+                                })
+                            } else {
+                                data.errors = [{message:"Couldn't fetch company data"}];
+                                return reply.view('company/profile',data);
+                            }
+                        })
+                    }
+                } else if(request.method === "post"){
+                    if(request.auth.credentials.scope === 'student'){
+                        DatabaseFunctions.updateStudent(request.auth.credentials.id,request.payload,function(answer){
+                            if(answer.code === 200){
+                                return reply.redirect("/profile");
+                            } else {
+                                //TODO: Deal with the errors here
+                                return reply.redirect("/profile");
+                            }
+                        });
+                    } else if(request.auth.credentials.scope === 'company'){
+                        return reply.redirect("/profile");
+                    }
                 }
             }
         }
