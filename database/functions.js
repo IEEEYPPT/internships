@@ -73,7 +73,7 @@ module.exports = {
         }).update(
             payload
         ).then(function(student){
-            if(Object.keys(student).length === 1){
+            if(student === 1){
                 callback({code:200,message: "Your profile was updated with success"});
             } else {
                 callback({code:500,message: "Your profile couldn't be updated"});
@@ -95,6 +95,23 @@ module.exports = {
                 })
             } else {
                 return callback({code: 404, message: "Email or password invalid"});
+            }
+        });
+    },checkStudentPassword: function (id,password,callback){
+        db.select('password').from('student').where({
+            id : id
+        }).then(function(student){
+            if(Object.keys(student).length === 1){
+                UtilsFunctions.comparePassword(password,student[0].password,function(val,isPasswordMatch){
+                    if(isPasswordMatch){
+                        return callback({code: 200, message: "Password match"}); //TODO check this code value
+                    }
+                    else{
+                        return callback({code: 500, message: "Wrong password"}); //TODO check this code value
+                    }
+                });
+            } else {
+                return callback({code: 404, message: "Id or password invalid"});
             }
         });
     },

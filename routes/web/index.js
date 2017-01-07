@@ -432,6 +432,53 @@ module.exports = function(server) {
         }
     });
 
+     server.route({
+        method: ['GET','POST'],
+        path: '/password',
+        config: {
+            handler: function (request,reply){
+                let data = {
+                    title: "Change password",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: []
+                };
+                if(request.method === 'get'){
+                    return reply.view('password',data);
+                } else if (request.method === 'post'){
+                    if(request.auth.credentials.scope === 'student'){
+                        DatabaseFunctions.checkStudentPassword(request.auth.credentials.id,request.payload.old_password,function(answer){
+                            if(answer.code === 200){
+                                if(request.payload.new_password === request.payload.check_password){
+                                    UtilsFunctions.cryptPassword(request.payload.new_password,function(err,hash){
+                                        if(!err){
+                                            DatabaseFunctions.updateStudent(request.auth.credentials.id,{password:hash},function(answer){
+                                                if(answer.code === 200){
+                                                    return reply.redirect('/profile');
+                                                } else {
+                                                    data.errors.push({message:"Error updating password"});
+                                                    return reply.view('password',data);
+                                                }
+                                            });
+                                        } else {                                    
+                                            data.errors.push({message:"Invalid password"});
+                                            return reply.view('password',data);
+                                        }
+                                    });
+                                } else {
+                                    data.errors.push({message:"New password doesn't match"});
+                                    return reply.view('password',data);
+                                }
+                            } else {
+                                data.errors.push({message:answer.message});
+                                return reply.view('password',data);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+     });
+
     server.route({
         method: '*',
         path: '/{p*}',
