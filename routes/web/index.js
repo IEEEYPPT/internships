@@ -480,6 +480,34 @@ module.exports = function(server) {
                                 return reply.view('password',data);
                             }
                         });
+                    } else if(request.auth.credentials.scope === 'company'){
+                        DatabaseFunctions.checkCompanyPassword(request.auth.credentials.id,request.payload.old_password,function(answer){
+                            if(answer.code === 200){
+                                if(request.payload.new_password === request.payload.check_password){
+                                    UtilsFunctions.cryptPassword(request.payload.new_password,function(err,hash){
+                                        if(!err){
+                                            DatabaseFunctions.updateCompany(request.auth.credentials.id,{password:hash},function(answer){
+                                                if(answer.code === 200){
+                                                    return reply.redirect('/profile');
+                                                } else {
+                                                    data.errors.push({message:"Error updating password"});
+                                                    return reply.view('password',data);
+                                                }
+                                            });
+                                        } else {                                    
+                                            data.errors.push({message:"Invalid password"});
+                                            return reply.view('password',data);
+                                        }
+                                    });
+                                } else {
+                                    data.errors.push({message:"New password doesn't match"});
+                                    return reply.view('password',data);
+                                }
+                            } else {
+                                data.errors.push({message:answer.message});
+                                return reply.view('password',data);
+                            }
+                        });
                     }
                 }
             }

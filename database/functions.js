@@ -127,6 +127,23 @@ module.exports = {
                 callback({code:500,message: "Your profile couldn't be updated"});
             }
         });
+    },checkCompanyPassword: function (id,password,callback){
+        db.select('password').from('company').where({
+            id : id
+        }).then(function(company){
+            if(Object.keys(company).length === 1){
+                UtilsFunctions.comparePassword(password,company[0].password,function(val,isPasswordMatch){
+                    if(isPasswordMatch){
+                        return callback({code: 200, message: "Password match"}); //TODO check this code value
+                    }
+                    else{
+                        return callback({code: 500, message: "Wrong password"}); //TODO check this code value
+                    }
+                });
+            } else {
+                return callback({code: 404, message: "Id or password invalid"});
+            }
+        });
     },
     checkCompanyLogin: function (email,password,callback){
         db.select('id','password').from('company').where({
