@@ -115,6 +115,19 @@ module.exports = {
             }
         });
     },
+    updateCompany : function (id, payload, callback) {
+        db('company').where({
+            id : id
+        }).update(
+            payload
+        ).then(function(company){
+            if(company === 1){
+                callback({code:200,message: "Your profile was updated with success"});
+            } else {
+                callback({code:500,message: "Your profile couldn't be updated"});
+            }
+        });
+    },
     checkCompanyLogin: function (email,password,callback){
         db.select('id','password').from('company').where({
             email : email

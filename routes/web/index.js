@@ -399,15 +399,15 @@ module.exports = function(server) {
                         DatabaseFunctions.getCompany(encodeURIComponent(request.auth.credentials.id),function(answer){
                             if(answer.code === 200){
                                 data.company = answer.message;
-                                DatabaseFunctions.getCity(data.company.city_id, function(answer){
+                                 DatabaseFunctions.getCities(function(answer){
                                     if(answer.code === 200){
-                                        data.company.city_name = answer.message.name;
+                                        data.company.cities = answer.message;
                                         return reply.view('company/profile',data);
                                     } else {
                                         data.errors = [{message:"Couldn't fetch company data"}];
                                         return reply.view('company/profile',data);
                                     }
-                                })
+                                });
                             } else {
                                 data.errors = [{message:"Couldn't fetch company data"}];
                                 return reply.view('company/profile',data);
@@ -425,7 +425,14 @@ module.exports = function(server) {
                             }
                         });
                     } else if(request.auth.credentials.scope === 'company'){
-                        return reply.redirect("/profile");
+                        DatabaseFunctions.updateCompany(request.auth.credentials.id,request.payload,function(answer){
+                            if(answer.code === 200){
+                                return reply.redirect("/profile");
+                            } else {
+                                //TODO: Deal with the errors here
+                                return reply.redirect("/profile");
+                            }
+                        });
                     }
                 }
             }

@@ -1,25 +1,54 @@
 {{!< layout/default}}
 {{#if company}}
-<div class="row">
-    <div class="col-md-4 col-xs-12">
-        <img class="img-responsive" src="http://placehold.it/350x350">
-    </div>
-    <div class="col-md-8 col-xs-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{company.name}}</h3>
+<script> 
+function enableInputs() {
+    $('input').removeAttr('disabled');
+    $('select').removeAttr('disabled');
+    $('textarea').removeAttr('disabled');
+    $('#edit-profile').hide();
+    $('#send-changes').removeClass('hidden');
+}   
+</script>
+<form action="/profile" method="post">
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <div class="row centered center-block">
+                <img class="img-responsive" src="http://placehold.it/350x350">
+                <hr>
+                <button id="edit-profile" class="btn btn-success" onclick="enableInputs();return false;">Edit profile</button>
+                <button id="send-changes" class="btn btn-success hidden" type="submit" hidden>Submit changes</button>
+                <a href="/password" class="btn btn-danger">Change password</a>
             </div>
-            <div class="panel-body">
-                <p>
-                    Name: {{company.name}}<br>
-                    Email: {{company.email}}<br>
-                    City: {{company.city_name}}<br>
-                    Field: {{company.field}}
-                </p>
+        </div>
+        <div class="col-md-8 col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{company.name}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for='name' class='control-label'>Name</label>
+                        <input id="name" name="name" class="form-control" value="{{company.name}}" required disabled>
+                        <label for="email" class="control-label">Email</label>
+                        <input id="email" name="email" class="form-control" type="email" value="{{company.email}}" required disabled>
+                        <label for='city' class='control-label'>City</label>
+                        <select id="city" name="city_id" class="form-control" required disabled>
+                        {{#each company.cities}}
+                            {{#if (isEqual ../company.city_id id)}}
+                            <option value={{id}} selected>{{name}}</option>
+                            {{else}}
+                            <option value={{id}}>{{name}}</option>
+                            {{/if}}
+                        {{/each}}
+                        </select>
+                        <label for="field" class="control-label">Field</label>
+                        <input id="field" name="field" class="form-control" value="{{company.field}}" required disabled>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 {{else}}
 <div class="row">
     <div class="col-xs-12">
