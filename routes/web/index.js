@@ -288,7 +288,18 @@ module.exports = function(server) {
             }
         }
         
-    })
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/dashboard',
+        config: {
+            handler: function(request, reply){
+                let data = {title:"Dashboard", errors:[], authenticated: request.auth.isAuthenticated};
+                return reply.view("dashboard");
+            }
+        }
+    });
 
     server.route({
         method: 'GET',
