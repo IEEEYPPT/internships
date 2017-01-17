@@ -14,7 +14,10 @@ module.exports = function(server) {
             handler: function (request, reply) {
                 let data = {
                     title: "What is the IEEE Young Professionals Internship Program?",
-                    authenticated: request.auth.isAuthenticated
+                    authenticated: request.auth.isAuthenticated,
+                }
+                if(request.auth.credentials && request.auth.credentials.scope){
+                    data.scope = request.auth.credentials.scope;
                 }
                 reply.view("index",data);
             },   
@@ -116,7 +119,7 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                let data = {title:"Student Register",errors:[]};
+                let data = {title:"Student Register",errors:[],scope: request.auth.credentials.scope};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
@@ -181,7 +184,7 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                let data = {title:"Company Register",errors:[]};
+                let data = {title:"Company Register",errors:[],scope: request.auth.credentials.scope};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
@@ -232,7 +235,7 @@ module.exports = function(server) {
         path: '/internship',
         config: {
             handler: function(request, reply){
-                let data = {title: "Internships",errors:[],authenticated: request.auth.isAuthenticated};
+                let data = {title: "Internships",errors:[],authenticated: request.auth.isAuthenticated,scope: request.auth.credentials.scope};
                 DatabaseFunctions.getInternships(function(internships){
                     if(internships.code === 200){
                         data.internships = internships.message;
@@ -256,7 +259,7 @@ module.exports = function(server) {
                 }
             },
             handler: function(request, reply){
-                let data = {title: "Internship",errors:[],authenticated: request.auth.isAuthenticated};
+                let data = {title: "Internship",errors:[],authenticated: request.auth.isAuthenticated,scope: request.auth.credentials.scope};
                 DatabaseFunctions.getInternship(request.params.id,function(internship){
                     if(internship.code === 200){
                         data.internship = internship.message;
@@ -275,7 +278,7 @@ module.exports = function(server) {
         path: '/company',
         config: {
             handler: function(request, reply){
-                let data = {title: "Companies",errors:[],authenticated: request.auth.isAuthenticated};
+                let data = {title: "Companies",errors:[],authenticated: request.auth.isAuthenticated,scope: request.auth.credentials.scope};
                 DatabaseFunctions.getCompanies(function(companies){
                     if(companies.code === 200){
                         data.companies = companies.message;
@@ -295,8 +298,8 @@ module.exports = function(server) {
         path: '/dashboard',
         config: {
             handler: function(request, reply){
-                let data = {title:"Dashboard", errors:[], authenticated: request.auth.isAuthenticated};
-                return reply.view("dashboard");
+                let data = {/*title:"Dashboard",*/ errors:[], authenticated: request.auth.isAuthenticated,scope: request.auth.credentials.scope};
+                return reply.view("dashboard",data);
             }
         }
     });
@@ -313,7 +316,8 @@ module.exports = function(server) {
             handler: function(request,reply){
                 let data = {
                     authenticated: request.auth.isAuthenticated,
-                    errors: []
+                    errors: [],
+                    scope: request.auth.credentials.scope
                 };
                 DatabaseFunctions.getCompany(encodeURIComponent(request.params.id),function(answer){
                     if(answer.code === 200){
@@ -348,7 +352,8 @@ module.exports = function(server) {
             handler: function(request,reply){
                 let data = {
                     authenticated: request.auth.isAuthenticated,
-                    errors: []
+                    errors: [],
+                    scope: request.auth.credentials.scope
                 };
                 DatabaseFunctions.getInternshipsFromCompany(encodeURIComponent(request.params.id),function(answer){
                     if(answer.code === 200){
@@ -377,7 +382,8 @@ module.exports = function(server) {
             handler: function (request,reply){
                 let data = {
                     authenticated: request.auth.isAuthenticated,
-                    errors: []
+                    errors: [],
+                    scope: request.auth.credentials.scope
                 };
                 if(request.method === "get"){
                     if(request.auth.credentials.scope === 'student'){
@@ -458,7 +464,8 @@ module.exports = function(server) {
                 let data = {
                     title: "Change password",
                     authenticated: request.auth.isAuthenticated,
-                    errors: []
+                    errors: [],
+                    scope: request.auth.credentials.scope
                 };
                 if(request.method === 'get'){
                     return reply.view('password',data);
@@ -536,7 +543,8 @@ module.exports = function(server) {
                 let data = {
                     title: 'Error',
                     authenticated: request.auth.isAuthenticated,
-                    errors: [{message: "Unavailable resource: " + request.path + " isn't available"}]
+                    errors: [{message: "Unavailable resource: " + request.path + " isn't available"}],
+                    scope: request.auth.credentials.scope
                 }
                 reply.view('error',data).code(404);
             }
