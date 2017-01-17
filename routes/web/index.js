@@ -298,7 +298,7 @@ module.exports = function(server) {
         path: '/dashboard',
         config: {
             handler: function(request, reply){
-                let data = {/*title:"Dashboard",*/ errors:[], authenticated: request.auth.isAuthenticated,scope: request.auth.credentials.scope};
+                let data = {/*title:"Dashboard",*/ errors:[], authenticated: request.auth.isAuthenticated,scope: request.auth.credentials.scope,id:request.auth.credentials.id};
                 return reply.view("dashboard",data);
             }
         }

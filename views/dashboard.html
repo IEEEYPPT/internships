@@ -11,7 +11,13 @@
         <div class="box centered">
             <h2>See internships <small><span class="glyphicon glyphicon-search" aria-hidden="true"></span></small></h2>
             <hr>
-            <p><a class="btn btn-primary" href="#" role="button">See</a></p>
+            <p>
+                {{#if (isEqual scope "company")}}
+                <a class="btn btn-primary" href="/company/{{id}}/internship" role="button">See</a>
+                {{else}}
+                <a class="btn btn-primary" href="#" role="button">See</a>
+                {{/if}}
+            </p>
         </div>
     </div>
     <div class="col-xs-12 col-md-4 col-sm-6">
