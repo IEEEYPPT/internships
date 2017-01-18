@@ -389,7 +389,8 @@ module.exports = function(server) {
                 let data = {
                     authenticated: request.auth.isAuthenticated,
                     errors: [],
-                    scope: request.auth.credentials.scope
+                    scope: request.auth.credentials.scope,
+                    authenticated_id: request.auth.credentials.id
                 };
                 if(request.method === "get"){
                     if(request.auth.credentials.scope === 'student'){
@@ -617,6 +618,26 @@ module.exports = function(server) {
                             //TODO: handle errors
                         }
                     });
+                }
+            }
+        }
+    });
+
+     server.route({
+        method: 'GET',
+        path: '/create/internship',
+        config: {
+            handler: function (request,reply){
+                let data = {
+                    title: "Create an Internship",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: [],
+                    scope: request.auth.credentials.scope
+                };
+                if(request.auth.credentials.scope === 'company'){
+                    return reply.view("internship/create")
+                } else {
+                    return reply.redirect("/");s
                 }
             }
         }
