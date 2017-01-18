@@ -555,13 +555,12 @@ module.exports = function(server) {
                         if(request.auth.credentials.scope === "student"){
                             DatabaseFunctions.updateStudent(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
                                 if(answer.code === 200){
-                                    const studentTransformer = Sharp()
+                                    Sharp(request.payload["picture"])
                                         .resize(350,350)
-                                        .crop(Sharp.strategy.attention)
-                                        .on('error',function(err){
-                                            //TODO: handle errors
-                                        });
-                                    Sharp(request.payload["picture"]).png().pipe(studentTransformer).pipe(fs.createWriteStream("public/upload/student/profile/" + uuid + ".png"));
+                                        .background({r: 0, g: 0, b: 0, alpha: 1})
+                                        .embed()
+                                        .png()
+                                        .pipe(fs.createWriteStream("public/upload/student/profile/" + uuid + ".png"));
                                     reply.redirect('/profile');
                                 } else {
                                     //TODO: handle errors
@@ -570,13 +569,12 @@ module.exports = function(server) {
                             } else if(request.auth.credentials.scope === "company"){
                                 DatabaseFunctions.updateCompany(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
                                     if(answer.code === 200){
-                                        const companyTransformer = Sharp()
+                                        Sharp(request.payload["picture"])
                                             .resize(350,350)
-                                            .crop(Sharp.strategy.attention)
-                                            .on('error',function(err){
-                                                //TODO: handle errors
-                                            });
-                                        Sharp(request.payload["picture"]).png().pipe(companyTransformer).pipe(fs.createWriteStream("public/upload/company/profile/" + uuid + ".png"));
+                                            .background({r: 0, g: 0, b: 0, alpha: 0})
+                                            .embed()
+                                            .png()
+                                            .pipe(fs.createWriteStream("public/upload/company/profile/" + uuid + ".png"));
                                         reply.redirect('/profile');
                                     } else {
                                         //TODO: handle errors
@@ -635,9 +633,17 @@ module.exports = function(server) {
                     scope: request.auth.credentials.scope
                 };
                 if(request.auth.credentials.scope === 'company'){
-                    return reply.view("internship/create")
+                    DatabaseFunctions.getCities(function(answer){
+                        if(answer.code === 200){
+                            data.cities = answer.message;
+                            return reply.view("internship/create",data);
+                        } else {
+                            data.errors.push({message:answer.message});
+                            return reply.view("internship/create",data);
+                        }
+                    });
                 } else {
-                    return reply.redirect("/");s
+                    return reply.redirect("/");
                 }
             }
         }
