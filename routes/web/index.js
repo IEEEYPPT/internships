@@ -4,6 +4,8 @@ const DatabaseFunctions = require('./../../database/functions.js');
 const UtilsFunctions = require('./../../utils/functions.js');
 const uuidV4 = require('uuid/v4');
 const Joi = require('joi');
+const fs = require('fs');
+const Sharp = require('sharp');
 
 module.exports = function(server) {
 
@@ -531,6 +533,90 @@ module.exports = function(server) {
             }
         }
      });
+
+    server.route({
+        method: 'POST',
+        path: '/picture',
+        config: {
+            payload: {
+                maxBytes: 209715200,
+                output: 'data',
+                parse: true
+            },
+            handler: function(request,reply){
+                if(request.payload["picture"]){
+                    if(request.auth.credentials && request.auth.credentials.scope){
+                        const uuid = uuidV4() + '-' + request.auth.credentials.id;
+                        if(request.auth.credentials.scope === "student"){
+                            DatabaseFunctions.updateStudent(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
+                                if(answer.code === 200){
+                                    const studentTransformer = Sharp()
+                                        .resize(350,350)
+                                        .crop(Sharp.strategy.attention)
+                                        .on('error',function(err){
+                                            //TODO: handle errors
+                                        });
+                                    Sharp(request.payload["picture"]).png().pipe(studentTransformer).pipe(fs.createWriteStream("public/upload/student/profile/" + uuid + ".png"));
+                                    reply.redirect('/profile');
+                                } else {
+                                    //TODO: handle errors
+                                }
+                            });
+                            } else if(request.auth.credentials.scope === "company"){
+                                DatabaseFunctions.updateCompany(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
+                                    if(answer.code === 200){
+                                        const companyTransformer = Sharp()
+                                            .resize(350,350)
+                                            .crop(Sharp.strategy.attention)
+                                            .on('error',function(err){
+                                                //TODO: handle errors
+                                            });
+                                        Sharp(request.payload["picture"]).png().pipe(companyTransformer).pipe(fs.createWriteStream("public/upload/company/profile/" + uuid + ".png"));
+                                        reply.redirect('/profile');
+                                    } else {
+                                        //TODO: handle errors
+                                    }
+                                });
+                            }
+                    }
+                }
+            }
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/picture',
+        config: {
+            handler: function (request,reply){
+                let data = {
+                    title: "Change profile picture",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: [],
+                    scope: request.auth.credentials.scope
+                };
+                if(request.auth.credentials.scope === 'student'){
+                    DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
+                        if(answer.code === 200){
+                            data.student = answer.message;
+                            return reply.view("picture",data);
+                        } else {
+                            //TODO: handle errors
+                        }
+                    });
+                } else if(request.auth.credentials.scope === 'company'){
+                    DatabaseFunctions.getCompany(request.auth.credentials.id, function(answer){
+                        if(answer.code === 200){
+                            data.company = answer.message;
+                            return reply.view("picture",data);
+                        } else {
+                            //TODO: handle errors
+                        }
+                    });
+                }
+            }
+        }
+    });
 
     server.route({
         method: '*',

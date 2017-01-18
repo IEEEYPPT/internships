@@ -1,0 +1,24 @@
+{{!< layout/default}}
+<div class="row centered center-block">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+    {{#if (isNull student.picture)}}
+        <img class="img-responsive" src="http://placehold.it/350x350">
+    {{else}}
+        {{#if (isEqual scope "student")}}
+        <img class="img-responsive" src="/public/upload/student/profile/{{student.picture}}">
+        {{else if (isEqual scope "company")}}
+        <img class="img-responsive" src="/public/upload/company/profile/{{company.picture}}">
+        {{/if}}
+    {{/if}}
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <form action="/picture" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="picture-file">File input</label>
+                <input class="btn btn-default center-block" type="file" id="picture-file" name="picture">
+                <p class="help-block">Your picture should be at most []x[] and N MB max</p>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>

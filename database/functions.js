@@ -19,7 +19,7 @@ function getCompany(id, callback) {
     db('company').where({
         id : id
     }).select('id','name','email','description','field',
-    'city_id').then(function(company){
+    'city_id','picture').then(function(company){
         if(Object.keys(company).length === 1){
             callback({code:200,message:company[0]});
         } else {
@@ -35,7 +35,7 @@ module.exports = {
         }).select('id','first_name','last_name','ieee_code',
         'birthdate','graduation_year','linkedin',
         'collabratec','bio','city_id',
-        'student_branch_id','area').then(function(student){
+        'student_branch_id','area','picture').then(function(student){
             if(Object.keys(student).length === 1){
                 callback({code:200,message:student[0]});
             } else {
@@ -47,7 +47,7 @@ module.exports = {
         db.select('id','first_name','last_name','ieee_code',
         'birthdate','graduation_year','linkedin',
         'collabratec','bio','city_id',
-        'student_branch_id','area').from('student').then(function(students){
+        'student_branch_id','area','picture').from('student').then(function(students){
             if(Object.keys(students).length <= 0){
                 callback({code:404,message:"There are no students available"});
             } else {

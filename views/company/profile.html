@@ -13,7 +13,11 @@ function enableInputs() {
     <div class="row">
         <div class="col-md-4 col-xs-12">
             <div class="row centered center-block">
+                {{#if (isNull company.picture)}}
                 <img class="img-responsive" src="http://placehold.it/350x350">
+                {{else}}
+                <img class="img-responsive" src="/public/upload/company/profile/{{company.picture}}">
+                {{/if}}
                 <hr>
                 <a href="/picture" class="btn btn-success btn-profile">Change Picture</a>
                 <button id="edit-profile" class="btn btn-success btn-profile" onclick="enableInputs();return false;">Edit profile</button>
