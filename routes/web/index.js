@@ -121,7 +121,7 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                let data = {title:"Student Register",errors:[],scope: request.auth.credentials.scope};
+                let data = {title:"Student Register",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
@@ -186,7 +186,7 @@ module.exports = function(server) {
             auth: { mode: 'try' }, 
             plugins: { 'hapi-auth-cookie': { redirectTo: false }} ,
             handler: function (request, reply) {
-                let data = {title:"Company Register",errors:[],scope: request.auth.credentials.scope};
+                let data = {title:"Company Register",errors:[]};
                 if (request.auth.isAuthenticated) {
                     return reply.redirect('/');
                 }
