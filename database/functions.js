@@ -259,6 +259,18 @@ module.exports = {
             }
         });
     },
+    createInternship: function (internship,callback){
+        db.insert(internship).into('internship').then(function(result){
+             if(result.rowCount === 1){
+                 callback({code:201,message: "Internship created with success"});
+             } else {
+                 callback({code:500,message: "Internship could not be created"});
+             }
+        },
+        function(error){
+            callback({code:500,message: "Internship could not be created : " + error}); //TODO Remove this error message
+        });
+    },
     getInternships : function (callback) {
         db.raw("SELECT internship.*,city.name AS city_name,company.name AS company_name " +
                 "FROM internship "+
