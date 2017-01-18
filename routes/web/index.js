@@ -319,8 +319,12 @@ module.exports = function(server) {
                 let data = {
                     authenticated: request.auth.isAuthenticated,
                     errors: [],
-                    scope: request.auth.credentials.scope
+                    scope: request.auth.credentials.scope,
+                    authenticated_id: request.auth.credentials.id
                 };
+                if(data.scope === "company" && data.authenticated_id === encodeURIComponent(request.params.id)){
+                    return reply.redirect("/profile");
+                }
                 DatabaseFunctions.getCompany(encodeURIComponent(request.params.id),function(answer){
                     if(answer.code === 200){
                         data.company = answer.message;
@@ -415,10 +419,10 @@ module.exports = function(server) {
                             }
                         });
                     } else if (request.auth.credentials.scope === 'company'){
-                        DatabaseFunctions.getCompany(encodeURIComponent(request.auth.credentials.id),function(answer){
+                        DatabaseFunctions.getCompany(request.auth.credentials.id,function(answer){
                             if(answer.code === 200){
                                 data.company = answer.message;
-                                 DatabaseFunctions.getCities(function(answer){
+                                DatabaseFunctions.getCities(function(answer){
                                     if(answer.code === 200){
                                         data.company.cities = answer.message;
                                         return reply.view('company/profile',data);
