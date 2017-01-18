@@ -557,7 +557,7 @@ module.exports = function(server) {
                                 if(answer.code === 200){
                                     Sharp(request.payload["picture"])
                                         .resize(350,350)
-                                        .background({r: 0, g: 0, b: 0, alpha: 1})
+                                        .background({r: 0, g: 0, b: 0, alpha: 0})
                                         .embed()
                                         .png()
                                         .pipe(fs.createWriteStream("public/upload/student/profile/" + uuid + ".png"));
