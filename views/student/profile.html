@@ -7,6 +7,7 @@ function enableInputs() {
     $('textarea').removeAttr('disabled');
     $('#edit-profile').hide();
     $('#send-changes').removeClass('hidden');
+    $('#cancel-changes').removeClass('hidden');
 }   
 </script>
 <form action="/profile" method="post">
@@ -22,6 +23,7 @@ function enableInputs() {
                 <a href="/picture" class="btn btn-success btn-profile">Change Picture</a>
                 <button id="edit-profile" class="btn btn-success btn-profile" onclick="enableInputs();return false;">Edit profile</button>
                 <button id="send-changes" class="btn btn-success btn-profile hidden" type="submit" hidden>Submit changes</button>
+                <a href="/profile" id="cancel-changes" class="btn btn-danger btn-profile hidden" hidden>Cancel changes</button>
                 <a href="/password" class="btn btn-danger btn-profile">Change password</a>
             </div>
         </div>
