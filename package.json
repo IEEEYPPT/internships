@@ -18,6 +18,7 @@
   "homepage": "https://github.com/IEEEYPPT/internships",
   "dependencies": {
     "bcrypt": "1",
+    "file-type": "^4.1.0",
     "handlebars": "4",
     "hapi": "16",
     "hapi-auth-cookie": "6",

@@ -6,6 +6,7 @@ const uuidV4 = require('uuid/v4');
 const Joi = require('joi');
 const fs = require('fs');
 const Sharp = require('sharp');
+const FileType = require('file-type');
 
 module.exports = function(server) {
 
@@ -549,24 +550,39 @@ module.exports = function(server) {
                 parse: true
             },
             handler: function(request,reply){
+                let data = {
+                    title: "Change profile picture",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: [],
+                    scope: request.auth.credentials.scope
+                };
                 if(request.payload["picture"]){
                     if(request.auth.credentials && request.auth.credentials.scope){
                         const uuid = uuidV4() + '-' + request.auth.credentials.id;
                         if(request.auth.credentials.scope === "student"){
-                            DatabaseFunctions.updateStudent(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
-                                if(answer.code === 200){
-                                    Sharp(request.payload["picture"])
-                                        .resize(350,350)
-                                        .background({r: 0, g: 0, b: 0, alpha: 0})
-                                        .embed()
-                                        .png()
-                                        .pipe(fs.createWriteStream("public/upload/student/profile/" + uuid + ".png"));
-                                    reply.redirect('/profile');
-                                } else {
-                                    //TODO: handle errors
-                                }
-                            });
-                            } else if(request.auth.credentials.scope === "company"){
+                            let pictureType = FileType(request.payload["picture"]);
+                            if(pictureType && (pictureType.ext === "jpg" || pictureType.ext === "png" )){
+                                DatabaseFunctions.updateStudent(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
+                                    if(answer.code === 200){
+                                        Sharp(request.payload["picture"])
+                                            .resize(350,350)
+                                            .background({r: 0, g: 0, b: 0, alpha: 0})
+                                            .embed()
+                                            .png()
+                                            .pipe(fs.createWriteStream("public/upload/student/profile/" + uuid + ".png"));
+                                        reply.redirect('/profile');
+                                    } else {
+                                        data.errors.push({message:"Couldn't update your picture"});
+                                        return reply.view('picture',data);
+                                    }
+                                });
+                            } else {
+                                data.errors.push({message:"File not supported"});
+                                return reply.view('picture',data);
+                            }
+                        } else if(request.auth.credentials.scope === "company"){
+                            let pictureType = FileType(request.payload["picture"]);
+                            if(pictureType && (pictureType.ext === "jpg" || pictureType.ext === "png" )){
                                 DatabaseFunctions.updateCompany(request.auth.credentials.id,{picture:uuid+".png"},function(answer){
                                     if(answer.code === 200){
                                         Sharp(request.payload["picture"])
@@ -577,10 +593,15 @@ module.exports = function(server) {
                                             .pipe(fs.createWriteStream("public/upload/company/profile/" + uuid + ".png"));
                                         reply.redirect('/profile');
                                     } else {
-                                        //TODO: handle errors
+                                        data.errors.push({message:"Couldn't update your picture"});
+                                        return reply.view('picture',data);
                                     }
                                 });
+                            } else {
+                                data.errors.push({message:"File not supported"});
+                                return reply.view('picture',data);
                             }
+                        }
                     }
                 }
             }
