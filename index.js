@@ -54,6 +54,7 @@ server.register(require('vision'), (err) => {
         partialsPath: 'views/partials'
     });
     
+    require('./config/folders/setup.js')(__dirname);
     require('./routes/web/index.js')(server);
     require('./routes/api/index.js')(server);
 });
