@@ -444,8 +444,8 @@ module.exports = function(server) {
                             if(answer.code === 200){
                                 return reply.redirect("/profile");
                             } else {
-                                //TODO: Deal with the errors here
-                                return reply.redirect("/profile");
+                                data.errors = [{message:"Couldn't update your profile"}];
+                                return reply.view("/profile",data);
                             }
                         });
                     } else if(request.auth.credentials.scope === 'company'){
@@ -453,8 +453,8 @@ module.exports = function(server) {
                             if(answer.code === 200){
                                 return reply.redirect("/profile");
                             } else {
-                                //TODO: Deal with the errors here
-                                return reply.redirect("/profile");
+                                data.errors = [{message:"Couldn't update your profile"}];
+                                return reply.view("/profile",data);
                             }
                         });
                     }
@@ -604,7 +604,8 @@ module.exports = function(server) {
                             data.student = answer.message;
                             return reply.view("picture",data);
                         } else {
-                            //TODO: handle errors
+                            data.errors.push({message:"Couldn't fetch your data"});
+                            return reply.view("picture",data);
                         }
                     });
                 } else if(request.auth.credentials.scope === 'company'){
@@ -613,7 +614,8 @@ module.exports = function(server) {
                             data.company = answer.message;
                             return reply.view("picture",data);
                         } else {
-                            //TODO: handle errors
+                            data.errors.push({message:"Couldn't fetch your data"});
+                            return reply.view("picture",data);
                         }
                     });
                 }
