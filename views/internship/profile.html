@@ -24,9 +24,10 @@
                 <h3 class="panel-title">Description</h3>
             </div>
             <div class="panel-body">
-                <p>
-                    {{{internship.description}}}
-                </p>
+                <p>{{{internship.description}}}</p>
+                {{#if internship.pdf}}
+                <p><a href="/public/upload/company/pdf/{{internship.pdf}}">PDF description</a></p>
+                {{/if}}
             </div>
         </div>
     </div>

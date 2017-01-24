@@ -237,7 +237,7 @@ module.exports = {
     getInternship : function (id, callback) {
         db('internship').where({
             id : id
-        }).select('id','title','description','publication_date','expiration_date','city_id','company_id').then(function(internship){
+        }).select('id','title','description','publication_date','expiration_date','city_id','company_id','pdf').then(function(internship){
             if(Object.keys(internship).length === 1){
                 getCity(internship[0].city_id,function(result){
                     if(result.code === 200){

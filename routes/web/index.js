@@ -645,7 +645,55 @@ module.exports = function(server) {
     });
 
      server.route({
-        method: ['GET','POST'],
+        method: 'POST',
+        path: '/create/internship',
+        config: {
+            payload: {
+                maxBytes: 209715200,
+                output: 'data',
+                parse: true
+            },
+            handler: function (request,reply){
+                let data = {
+                    title: "Create an Internship",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: [],
+                    scope: request.auth.credentials.scope
+                };
+                if(request.payload.title && request.payload.description && request.payload.city_id && request.payload.expiration_date){
+                    let date = new Date();
+                    const uuid = uuidV4() + '-' + request.auth.credentials.id + "-" + date.getTime();
+                    date = date.toISOString();
+                    request.payload.publication_date = date;
+                    request.payload.company_id = request.auth.credentials.id;
+
+                    let documentType = FileType(request.payload["pdf"]);
+                    if(documentType && documentType.ext === "pdf"){
+                        fs.writeFile("public/upload/company/pdf/"+ uuid + ".pdf",request.payload.pdf);
+                        request.payload["pdf"] = uuid + ".pdf";
+                    } else {
+                        data.errors.push({message:"File not supported"});
+                        return reply.view('internship/create',data);
+                    }
+
+                    DatabaseFunctions.createInternship(request.payload,function(answer){
+                        if(answer.code === 201){
+                            return reply.redirect("/dashboard");
+                        } else {
+                            data.errors.push({message:answer.message});
+                            return reply.view('internship/create',data);
+                        }
+                    });
+                } else {
+                    data.errors.push({message: "Missing values"});
+                    return reply.view("internship/create",data);
+                };
+            }
+        }
+    });
+
+    server.route({
+        method: 'GET',
         path: '/create/internship',
         config: {
             handler: function (request,reply){
@@ -655,38 +703,18 @@ module.exports = function(server) {
                     errors: [],
                     scope: request.auth.credentials.scope
                 };
-                if(request.method === 'get'){
-                    if(request.auth.credentials.scope === 'company'){
-                        DatabaseFunctions.getCities(function(answer){
-                            if(answer.code === 200){
-                                data.cities = answer.message;
-                                return reply.view("internship/create",data);
-                            } else {
-                                data.errors.push({message:answer.message});
-                                return reply.view("internship/create",data);
-                            }
-                        });
-                    } else {
-                        return reply.redirect("/");
-                    }
-                } else if(request.method === 'post'){
-                    if(request.payload.title && request.payload.description && request.payload.city_id && request.payload.expiration_date){
-                        let date = new Date();
-                        date = date.toISOString();
-                        request.payload.publication_date = date;
-                        request.payload.company_id = request.auth.credentials.id;
-                        DatabaseFunctions.createInternship(request.payload,function(answer){
-                            if(answer.code === 201){
-                                return reply.redirect("/dashboard");
-                            } else {
-                                data.errors.push({message:answer.message});
-                                return reply.view('create/internship',data);
-                            }
-                        });
-                    } else {
-                        data.errors.push({message: "Missing values"});
-                        return reply.view("create/internship",data);
-                    };
+                if(request.auth.credentials.scope === 'company'){
+                    DatabaseFunctions.getCities(function(answer){
+                        if(answer.code === 200){
+                            data.cities = answer.message;
+                            return reply.view("internship/create",data);
+                        } else {
+                            data.errors.push({message:answer.message});
+                            return reply.view("internship/create",data);
+                        }
+                    });
+                } else {
+                    return reply.redirect("/");
                 }
             }
         }

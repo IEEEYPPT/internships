@@ -1,7 +1,7 @@
 {{!< layout/default}}
 <div class="row">
     <div class="col-xs-12">
-        <form class='form-horizontal' id='form-create-internship' method="post" action="/create/internship">
+        <form class='form-horizontal' id='form-create-internship' method="post" action="/create/internship" enctype="multipart/form-data">
             <div class='form-group'>
                 <label for='input-name' class='col-sm-3 control-label'>Internship Title</label>
                 <div class='col-sm-9'>
@@ -28,6 +28,12 @@
                 <label for='input-expiration-date' class='col-sm-3 control-label'>Expiration Date</label>
                 <div class='col-sm-9'>
                     <input type="date" class='form-control' id='input-expiration-date' placeholder='Expiration Date' name="expiration_date" required>
+                </div>
+            </div>
+            <div class='form-group'>
+                <label for='input-description-pdf' class='col-sm-3 control-label'>Extended Description</label>
+                <div class='col-sm-9'> 
+                    <input class="btn btn-default center-block" type="file" id="input-description-pdf" name="pdf">
                 </div>
             </div>
             <div class='form-group'>
