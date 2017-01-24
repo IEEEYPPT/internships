@@ -21,6 +21,7 @@ function enableInputs() {
                 {{/if}}
                 <hr>
                 <a href="/picture" class="btn btn-success btn-profile">Change Picture</a>
+                <a href="/cv" class="btn btn-success btn-profile">Update CV</a>
                 <button id="edit-profile" class="btn btn-success btn-profile" onclick="enableInputs();return false;">Edit profile</button>
                 <button id="send-changes" class="btn btn-success btn-profile hidden" type="submit" hidden>Submit changes</button>
                 <a href="/profile" id="cancel-changes" class="btn btn-danger btn-profile hidden" hidden>Cancel changes</button>
@@ -77,6 +78,9 @@ function enableInputs() {
                     <p>
                         <textarea id="bio" name="bio" class="form-control" disabled>{{student.bio}}</textarea>
                     </p>
+                    {{#if student.cv}}
+                    <p><a href="/public/upload/student/cv/{{cv}}">Curriculum Vitae</a></p>
+                    {{/if}}
                 </div>
             </div>
         </div>

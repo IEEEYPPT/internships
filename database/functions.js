@@ -35,7 +35,7 @@ module.exports = {
         }).select('id','first_name','last_name','ieee_code',
         'birthdate','graduation_year','linkedin',
         'collabratec','bio','city_id',
-        'student_branch_id','area','picture').then(function(student){
+        'student_branch_id','area','picture','cv').then(function(student){
             if(Object.keys(student).length === 1){
                 callback({code:200,message:student[0]});
             } else {

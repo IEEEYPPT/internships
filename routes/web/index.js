@@ -644,6 +644,78 @@ module.exports = function(server) {
         }
     });
 
+    server.route({
+        method: 'GET',
+        path: '/cv',
+        config: {
+            handler: function (request,reply){
+                let data = {
+                    title: "Change CV File",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: [],
+                    scope: request.auth.credentials.scope
+                };
+                if(request.auth.credentials.scope === 'student'){
+                    DatabaseFunctions.getStudent(request.auth.credentials.id, function(answer){
+                        if(answer.code === 200){
+                            data.student = answer.message;
+                            return reply.view("student/cv",data);
+                        } else {
+                            data.errors.push({message:"Couldn't fetch your data"});
+                            return reply.view("student/cv",data);
+                        }
+                    });
+                } else {
+                    return reply.redirect("/");
+                }
+            }
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/cv',
+        config: {
+            payload: {
+                maxBytes: 209715200,
+                output: 'data',
+                parse: true
+            },
+            handler: function (request,reply){
+                let data = {
+                    title: "Change CV File",
+                    authenticated: request.auth.isAuthenticated,
+                    errors: [],
+                    scope: request.auth.credentials.scope
+                };
+                if(request.payload.cv){
+                    const uuid = uuidV4() + '-' + request.auth.credentials.id;
+
+                    let documentType = FileType(request.payload["cv"]);
+                    if(documentType && documentType.ext === "pdf"){
+                        fs.writeFile("public/upload/student/cv/"+ uuid + ".pdf",request.payload.cv);
+                        request.payload["cv"] = uuid + ".pdf";
+                    } else {
+                        data.errors.push({message:"File not supported"});
+                        return reply.view('student/cv',data);
+                    }
+
+                    DatabaseFunctions.updateStudent(request.auth.credentials.id,request.payload,function(answer){
+                        if(answer.code === 200){
+                            return reply.redirect("/profile");
+                        } else {
+                            data.errors.push({message:answer.message});
+                            return reply.view('student/cv',data);
+                        }
+                    });
+                } else {
+                    data.errors.push({message: "Missing values"});
+                    return reply.view("student/cv",data);
+                };
+            }
+        }
+    });
+
      server.route({
         method: 'POST',
         path: '/create/internship',

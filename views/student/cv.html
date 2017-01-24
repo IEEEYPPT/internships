@@ -1,0 +1,16 @@
+{{!< layout/default}}
+<div class="row centered center-block">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        {{#if student.cv}}
+        <a href="/public/upload/student/cv/{{student.cv}}">Current CV</a>
+        {{/if}}
+        <form action="/cv" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="cv-file">File input</label>
+                <input class="btn btn-default center-block" type="file" id="cv-file" name="cv">
+                <p class="help-block">Your CV should be a pdf file and N MB max</p>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>
